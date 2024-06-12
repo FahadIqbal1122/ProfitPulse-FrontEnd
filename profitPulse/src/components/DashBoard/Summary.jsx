@@ -17,6 +17,21 @@ const Summmary = () => {
     averageAmount: 0,
   })
 
+  const fetchIncomeData = async () => {
+    try {
+      const incomedata = await GetIncome()
+      setIncomes(incomedata)
+      // calculate income summary
+      const totalAmount = incomedata.reduce(
+        (total, income) => total + income.amount,
+        0
+      )
+      const averageAmount = totalAmount / incomedata.length
+      setIncomeSummary((totalAmount, averageAmount))
+    } catch (error) {
+      console.error("Error fetching incomes:", error)
+    }
+  }
   const fetchExpensesData = async () => {
     try {
       // waiting for getexpense
@@ -37,22 +52,6 @@ const Summmary = () => {
     }
   }
 
-  const fetchIncomeData = async () => {
-    try {
-      const incomedata = await GetIncome()
-      setIncomes(incomedata)
-      // calculate income summary
-      const totalAmount = incomedata.reduce(
-        (total, income) => total + income.amount,
-        0
-      )
-      const averageAmount = totalAmount / incomedata.length
-      setIncomeSummary((totalAmount, averageAmount))
-    } catch (error) {
-      console.error("Error fetching incomes:", error)
-    }
-  }
-
   useEffect(() => {
     const fetchExpensesData = async () => {
       try {
@@ -69,8 +68,8 @@ const Summmary = () => {
         console.error("Error fetching expenses:", error)
       }
     }
-    fetchExpensesData()
     fetchIncomeData()
+    fetchExpensesData()
   }, [])
 
   return (
