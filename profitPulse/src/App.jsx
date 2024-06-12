@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
-import { Route, Routes } from 'react-router'
-import { CheckSession } from '../src/components/services/Auth'
-import Nav from './components/Nav'
-import SignUp from './components/Auth/SignUp'
-import LogIn from './components/Auth/Login'
-import './App.css'
+import { useState, useEffect } from "react"
+import { Route, Routes } from "react-router"
+import { CheckSession } from "./services/Auth"
+import Nav from "./components/Nav"
+import SignUp from "./components/Auth/SignUp"
+import LogIn from "./components/Auth/Login"
+import "./App.css"
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -21,7 +21,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token")
     if (token) {
       checkToken()
     }

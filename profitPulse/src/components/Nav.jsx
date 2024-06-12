@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom"
 
 const Nav = ({ user, handleLogOut }) => {
   let userOptions
@@ -6,7 +6,7 @@ const Nav = ({ user, handleLogOut }) => {
     userOptions = (
       <nav>
         <h3>Welcome {user.email}!</h3>
-        <Link to="/feed">Feed</Link>
+        <Link to="/dashboard">Dashboard</Link>
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
