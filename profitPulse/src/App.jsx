@@ -32,10 +32,8 @@ const App = () => {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/feed" element={<Feed />} />
         </Routes>
       </main>
     </div>
