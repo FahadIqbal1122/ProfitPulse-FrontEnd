@@ -4,6 +4,7 @@ import { CheckSession } from "./services/Auth"
 import Nav from "./components/Nav"
 import SignUp from "./components/Auth/SignUp"
 import LogIn from "./components/Auth/Login"
+import DshBoard from "./components/DashBoard/DshBoard"
 import "./App.css"
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/dshBoard" element={<DshBoard />}></Route>
         </Routes>
       </main>
     </div>
