@@ -1,11 +1,11 @@
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axios from "axios"
 
 const Expense = () => {
   const [formValues, setFormValues] = useState({
-    note: '',
-    amount: ''
+    note: "",
+    amount: "",
   })
   const [submittedExpense, setSubmittedExpense] = useState(null)
 
@@ -17,20 +17,20 @@ const Expense = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await axios.post('http://localhost:3001/expense/', formValues)
+    await axios.post("http://localhost:3001/expense/", formValues)
 
     setFormValues({
-      note: '',
-      amount: ''
+      note: "",
+      amount: "",
     })
     setSubmittedExpense({
       note: formValues.note,
-      amount: formValues.amount
+      amount: formValues.amount,
     })
     //navigate('/')
   }
   return (
-    <div>
+    <div className="Forms">
       <div>
         <form onSubmit={handleSubmit}>
           <div>

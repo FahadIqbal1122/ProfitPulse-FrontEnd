@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f0f4f8;
   color: #333;
 }
@@ -207,4 +207,8 @@ button:hover:not(:disabled) {
 .content h1 {
   font-size: 2em;
   margin-bottom: 5%;
+}
+
+.Forms {
+  margin-top: 100px;
 }
