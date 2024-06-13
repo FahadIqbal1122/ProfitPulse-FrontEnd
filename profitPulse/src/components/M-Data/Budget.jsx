@@ -1,32 +1,70 @@
-import { GetPosts } from '../Auth'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import axios from 'axios'
 
-const Budget = (user) => {
+const Budget = () => {
+  const [formValues, setFormValues] = useState({
+    name: '',
+    limit: ''
+  })
+  const [submittedBudget, setSubmittedBudget] = useState(null)
+
   let navigate = useNavigate()
-  const [posts, setPosts] = useState([])
+  const handleChange = (e) => {
+    setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  }
 
-  useEffect(() => {
-    const handlePosts = async () => {
-      //const response = await fetch('http://data')
-      const data = await GetPosts()
-      setPosts(data)
-    }
-    handlePosts()
-  }, [])
-  return user ? (
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    await axios.post('http://localhost:3001/budget/', formValues)
+
+    setFormValues({
+      name: '',
+      limit: ''
+    })
+    setSubmittedBudget({
+      name: formValues.name,
+      limit: formValues.limit
+    })
+    //navigate('/')
+  }
+  return (
     <div>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h3>{post.name}</h3>
-          <p>{post.limit}</p>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">Name</label>
+            <input
+              onChange={handleChange}
+              name="name"
+              type="text"
+              value={formValues.name}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="limit">Limit</label>
+            <input
+              onChange={handleChange}
+              name="limit"
+              type="number"
+              value={formValues.limit}
+              required
+            />
+          </div>
+          <button disabled={!formValues.name || !formValues.limit}>
+            Add Budget
+          </button>
+        </form>
+      </div>
+      {submittedBudget && (
+        <div>
+          <h3>The added budget</h3>
+          <p>name:{submittedBudget.name}</p>
+          <p>limit:{submittedBudget.limit}</p>
         </div>
-      ))}
-    </div>
-  ) : (
-    <div>
-      <h3>Oops! You must be signed in to do that!</h3>
-      <button onClick={() => navigate('/signin')}>Sign In</button>
+      )}
     </div>
   )
 }
