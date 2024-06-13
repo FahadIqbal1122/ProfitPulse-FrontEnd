@@ -6,13 +6,24 @@
   font-family: Arial, sans-serif;
 }
 
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+}
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #333;
+  background-color: #4a90e2;
   color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header .logo-wrapper {
@@ -23,6 +34,7 @@ header .logo-wrapper {
 header .logo {
   height: 50px;
   width: 50px;
+  border-radius: 50%;
 }
 
 nav {
@@ -33,11 +45,12 @@ nav {
 nav a {
   color: white;
   text-decoration: none;
+  font-weight: bold;
   transition: color 0.3s;
 }
 
 nav a:hover {
-  color: #ddd;
+  color: #d1eaff;
 }
 
 h3 {
@@ -57,7 +70,7 @@ h3 {
   background-color: white;
   padding: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 form {
@@ -80,7 +93,7 @@ input {
 
 button {
   padding: 10px 20px;
-  background-color: #333;
+  background-color: #4a90e2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -94,5 +107,104 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background-color: #555;
+  background-color: #357ab7;
+}
+
+/* Dashboard styles */
+.dash-container {
+  display: flex;
+  height: 100vh;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  padding-top: 80px; /* Adjusted for header height */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #34495e;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  height: 100%;
+  position: fixed;
+  top: 80px; /* Adjusted for header height */
+  transition: width 0.3s, top 0.3s;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0 10px 10px 0;
+}
+
+.left-sidebar {
+  left: 0;
+}
+
+.right-sidebar {
+  right: 0;
+}
+
+.sidebar.minimized {
+  width: 50px;
+}
+
+.sidebar .toggle-btn {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3b5998;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.sidebar .toggle-btn:hover {
+  background-color: #4a90e2;
+}
+
+.sidebar h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar ul li {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover {
+  background-color: #34495e;
+}
+
+.content {
+  flex: 1;
+  margin: 80px 250px 0 250px; /* Adjusted for header height */
+  padding: 40px;
+  background-color: #ecf0f1;
+  overflow-y: auto;
+  transition: margin 0.3s;
+}
+
+.content h1 {
+  font-size: 2em;
+  margin-bottom: 5%;
 }
