@@ -1,12 +1,13 @@
-import { LogInUser } from '../../services/Auth'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
 
 const Expense = () => {
   const [formValues, setFormValues] = useState({
     note: '',
     amount: ''
   })
+  const [submittedExpense, setSubmittedExpense] = useState(null)
 
   let navigate = useNavigate()
   const handleChange = (e) => {
@@ -15,43 +16,55 @@ const Expense = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await createExpense({
-      note: formValues.note,
-      amount: formValues.amount
-    })
+
+    await axios.post('http://localhost:3001/expense/', formValues)
+
     setFormValues({
       note: '',
       amount: ''
+    })
+    setSubmittedExpense({
+      note: formValues.note,
+      amount: formValues.amount
     })
     //navigate('/')
   }
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit}></form>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="note">Note</label>
+            <input
+              onChange={handleChange}
+              name="note"
+              type="text"
+              value={formValues.note}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="amount">Amount</label>
+            <input
+              onChange={handleChange}
+              name="amount"
+              type="number"
+              value={formValues.amount}
+              required
+            />
+          </div>
+          <button disabled={!formValues.note || !formValues.amount}>
+            Add expense
+          </button>
+        </form>
       </div>
-      <div>
-        <label htmlFor="note">Note</label>
-        <input
-          onChange={handleChange}
-          name="note"
-          type="text"
-          placeholder="your note"
-          value={formValues.note}
-          required
-        />
-      </div>
-      <div>
-        <input
-          onChange={handleChange}
-          name="amount"
-          type="number"
-          placeholder="The amount"
-          value={formValues.amount}
-          required
-        />
-      </div>
-      <button disabled={!formValues.note || !formValues.amount}>Add</button>
+      {submittedExpense && (
+        <div>
+          <h3>The added budget</h3>
+          <p>note:{submittedExpense.note}</p>
+          <p>amount:{submittedExpense.amount}</p>
+        </div>
+      )}
     </div>
   )
 }

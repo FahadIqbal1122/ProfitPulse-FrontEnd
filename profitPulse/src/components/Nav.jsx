@@ -10,7 +10,8 @@ const Nav = ({ user, handleLogOut }) => {
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
-        <Link to="/Income">Income</Link>
+        <Link to="/Budget">Budget Form</Link>
+        <Link to="/Expense">Expense Form</Link>
       </nav>
     )
   }
