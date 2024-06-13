@@ -10,6 +10,7 @@ const Nav = ({ user, handleLogOut }) => {
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
+        <Link to="/Income">Income</Link>
       </nav>
     )
   }
