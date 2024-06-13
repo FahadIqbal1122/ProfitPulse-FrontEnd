@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Nav = ({ user, handleLogOut }) => {
@@ -28,7 +29,7 @@ const Nav = ({ user, handleLogOut }) => {
         <div className="logo-wrapper" alt="logo">
           <img
             className="logo"
-            src="https://avatars.dicebear.com/api/gridy/app.svg"
+            src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png"
             alt="welcome banner"
           />
         </div>
