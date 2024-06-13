@@ -7,6 +7,7 @@ import LogIn from './components/Auth/Login'
 import Budget from './components/M-Data/Budget'
 import './App.css'
 import Expense from './components/M-Data/Expense'
+import Income from './components/M-Data/Income'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/" element={<SignUp />} />
           <Route path="/Budget" element={<Budget />} />
           <Route path="/Expense" element={<Expense />} />
+          <Route path="/Income" element={<Income />} />
         </Routes>
       </main>
     </div>
