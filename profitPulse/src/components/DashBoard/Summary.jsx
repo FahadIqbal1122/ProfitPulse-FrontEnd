@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { GetExpenses, GetIncome } from "../Auth"
 
-const Summmary = () => {
+const Summary = () => {
   // state for holding expenses and income data
   const [expenses, setExpenses] = useState([])
-  const [income, setIncomes] = useState([])
+  const [incomes, setIncomes] = useState([])
 
-  // state for holding expense and income summary and
-  // also setting current state  obj to total amount and average and intialized '0'
-  const [expenseSummary, SetExpenseSummary] = useState({
+  // state for holding expense and income summary
+  // initialized with totalAmount and averageAmount set to 0
+  const [expenseSummary, setExpenseSummary] = useState({
     totalAmount: 0,
     averageAmount: 0,
   })
@@ -17,59 +17,43 @@ const Summmary = () => {
     averageAmount: 0,
   })
 
+  // function to fetch income data and calculate income summary
   const fetchIncomeData = async () => {
     try {
-      const incomedata = await GetIncome()
-      setIncomes(incomedata)
+      const incomeData = await GetIncome()
+      setIncomes(incomeData)
       // calculate income summary
-      const totalAmount = incomedata.reduce(
+      const totalAmount = incomeData.reduce(
         (total, income) => total + income.amount,
         0
       )
-      const averageAmount = totalAmount / incomedata.length
-      setIncomeSummary((totalAmount, averageAmount))
+      const averageAmount = totalAmount / incomeData.length
+      setIncomeSummary({ totalAmount, averageAmount })
     } catch (error) {
       console.error("Error fetching incomes:", error)
     }
   }
-  const fetchExpensesData = async () => {
+
+  // function to fetch expense data and calculate expense summary
+  const fetchExpenseData = async () => {
     try {
-      // waiting for getexpense
-      const data = await GetExpenses()
-      setExpenses(data)
-      // calculate summary
-      const totalAmount = expenses.reduce(
+      const expenseData = await GetExpenses()
+      setExpenses(expenseData)
+      // calculate expense summary
+      const totalAmount = expenseData.reduce(
         (total, expense) => total + expense.amount,
         0
       )
-      const averageAmount = expenses.reduce(
-        (total, average) => total + average,
-        0
-      )
-      setSummary({ totalAmount, averageAmount })
+      const averageAmount = totalAmount / expenseData.length
+      setExpenseSummary({ totalAmount, averageAmount })
     } catch (error) {
       console.error("Error fetching expenses:", error)
     }
   }
 
   useEffect(() => {
-    const fetchExpensesData = async () => {
-      try {
-        const expensedata = await GetExpenses()
-        setExpenses(expensedata)
-        // calculate expense summary
-        const totalAmount = expensedata.reduce(
-          (total, expense) => total + expense.amount,
-          0
-        )
-        const averageAmount = totalAmount / expensedata.length
-        SetExpenseSummary({ totalAmount, averageAmount })
-      } catch (error) {
-        console.error("Error fetching expenses:", error)
-      }
-    }
     fetchIncomeData()
-    fetchExpensesData()
+    fetchExpenseData()
   }, [])
 
   return (
@@ -95,4 +79,5 @@ const Summmary = () => {
     </div>
   )
 }
-export default Summmary
+
+export default Summary
