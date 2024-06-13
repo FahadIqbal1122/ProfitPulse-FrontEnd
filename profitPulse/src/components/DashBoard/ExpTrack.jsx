@@ -18,7 +18,6 @@ const ExpTrack = () => {
         <div className="Expensecard" key={expense.id}>
           <h3>{expense.note}</h3>
           <h3>{expense.amount}</h3>
-          <h3>{expense.limit}</h3>
         </div>
       ))}
     </div>
