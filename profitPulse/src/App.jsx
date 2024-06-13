@@ -38,6 +38,7 @@ const App = () => {
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
 
+          {/* Route for ExpTracker component */}
           <Route path="/*" element={<DashSide />} />
         </Routes>
       </main>

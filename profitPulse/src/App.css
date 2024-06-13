@@ -109,6 +109,18 @@ button:disabled {
 button:hover:not(:disabled) {
   background-color: #357ab7;
 }
+.chart-container {
+  margin-top: 10px; /* Adjust this margin as needed */
+}
+/* Ensure the main content area expands properly */
+.content {
+  flex: 1;
+  margin: 80px 250px 0 250px; /* Adjusted for header height and sidebar width */
+  padding: 40px;
+  background-color: #ecf0f1;
+  overflow-y: auto;
+  transition: margin 0.3s;
+}
 
 /* Dashboard styles */
 .dash-container {
@@ -208,7 +220,3 @@ button:hover:not(:disabled) {
   font-size: 2em;
   margin-bottom: 5%;
 }
-/* .chart-container {
-  width: 100%;
-  height: 400px; /* Example height */
-/* } */

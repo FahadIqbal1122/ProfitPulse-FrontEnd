@@ -40,12 +40,11 @@ const DashSide = () => {
 
   // Extract category from the URL using useLocation
   const location = useLocation()
-  const category = location.pathname.split("/")[2] // Assumes "/dashboard/exptrack"
+  const category = location.pathname.split("/")[1] // Assumes "/category"
 
   // Effect to show chart based on category
   React.useEffect(() => {
-    if (category === "exptrack") {
-      // Match the URL segment
+    if (category === "ExpTracker") {
       setShowChart(true)
     } else {
       setShowChart(false)
