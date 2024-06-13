@@ -8,6 +8,7 @@ import LogIn from './components/Auth/Login'
 import DashSide from './components/DashBoard/DashSide'
 import './App.css'
 
+
 const App = () => {
   const [user, setUser] = useState(null)
 
@@ -36,7 +37,9 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
+
           <Route path="/*" element={<DashSide />} />
+
         </Routes>
       </main>
     </div>
