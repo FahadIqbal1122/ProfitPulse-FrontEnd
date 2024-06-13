@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { GetExpenses, GetIncome } from "../Auth"
+import { GetExpenses, GetIncome, GetBudget } from "../Auth"
 
 const Summary = () => {
-  // state for holding expenses and income data
+  // state for holding expenses ,income and budget data
   const [expenses, setExpenses] = useState([])
   const [incomes, setIncomes] = useState([])
+  const [budets, setBudgets] = useState[[]]
 
   // state for holding expense and income summary
   // initialized with totalAmount and averageAmount set to 0
@@ -15,6 +16,10 @@ const Summary = () => {
   const [incomeSummary, setIncomeSummary] = useState({
     totalAmount: 0,
     averageAmount: 0,
+  })
+  const [budgetSummary, setBudgetSummary] = useState({
+    limit: 0,
+    name: "",
   })
 
   // function to fetch income data and calculate income summary
@@ -50,16 +55,29 @@ const Summary = () => {
       console.error("Error fetching expenses:", error)
     }
   }
+  const fetchbudgetdata = async () => {
+    try {
+      const budgetdata = await GetBudget()
+      setBudgets(budgetdata)
+      // calculate budgetSummary
+      const { limit, name } = budgetdata[0] || { limit: 0, name: "" }
+      setBudgetSummary({ limit, name })
+    } catch (error) {
+      console.error("Error fetching budget:", error)
+    }
+  }
 
   useEffect(() => {
     fetchIncomeData()
     fetchExpenseData()
+    fetchbudgetdata()
   }, [])
 
   return (
     <div className="Summary">
       <h2>Expense Summary</h2>
       <div>Total Expenses: ${expenseSummary.totalAmount}</div>
+      {/* //.toFixed(2): Ensures the number has two decimal places for consistent display of monetary values. */}
       <div>Average Expense: ${expenseSummary.averageAmount.toFixed(2)}</div>
       {expenses.map((expense) => (
         <div className="Expensecard" key={expense.id}>
@@ -76,6 +94,9 @@ const Summary = () => {
           <h3>{income.amount}</h3>
         </div>
       ))}
+      <h2>Budget Summary</h2>
+      <div>Budget Name: {budgetSummary.name}</div>
+      <div>Budget Limit: {budgetSummary.limit}</div>
     </div>
   )
 }
