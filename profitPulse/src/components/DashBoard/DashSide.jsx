@@ -15,7 +15,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
 const DashSide = () => {
   const [showChart, setShowChart] = useState(false) // Initialize to false
-  // Expense data
+
   const MonthlyExpenses = [
     { month: "January", amount: 1200 },
     { month: "February", amount: 900 },
@@ -27,7 +27,7 @@ const DashSide = () => {
     { month: "August", amount: 1150 },
     { month: "September", amount: 1600 },
     { month: "October", amount: 1500 },
-    { month: "November", amount: 1200 },
+    { month: "November", amount: 1700 },
     { month: "December", amount: 1900 },
   ]
 
