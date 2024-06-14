@@ -220,3 +220,7 @@ button:hover:not(:disabled) {
   font-size: 2em;
   margin-bottom: 5%;
 }
+
+.Forms {
+  margin-top: 100px;
+}

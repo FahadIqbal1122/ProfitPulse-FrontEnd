@@ -1,32 +1,70 @@
-import { GetPosts } from '../Auth'
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axios from "axios"
 
-const Expense = (user) => {
+const Expense = () => {
+  const [formValues, setFormValues] = useState({
+    note: "",
+    amount: "",
+  })
+  const [submittedExpense, setSubmittedExpense] = useState(null)
+
   let navigate = useNavigate()
-  const [posts, setPosts] = useState([])
+  const handleChange = (e) => {
+    setFormValues({ ...formValues, [e.target.note]: e.target.value })
+  }
 
-  useEffect(() => {
-    const handlePosts = async () => {
-      //const response = await fetch('http://data')
-      const data = await GetPosts()
-      setPosts(data)
-    }
-    handlePosts()
-  }, [])
-  return user ? (
-    <div>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h3>{post.note}</h3>
-          <p>{post.amount}</p>
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    await axios.post("http://localhost:3001/expense/", formValues)
+
+    setFormValues({
+      note: "",
+      amount: "",
+    })
+    setSubmittedExpense({
+      note: formValues.note,
+      amount: formValues.amount,
+    })
+    //navigate('/')
+  }
+  return (
+    <div className="Forms">
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="note">Note</label>
+            <input
+              onChange={handleChange}
+              name="note"
+              type="text"
+              value={formValues.note}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="amount">Amount</label>
+            <input
+              onChange={handleChange}
+              name="amount"
+              type="number"
+              value={formValues.amount}
+              required
+            />
+          </div>
+          <button disabled={!formValues.note || !formValues.amount}>
+            Add expense
+          </button>
+        </form>
+      </div>
+      {submittedExpense && (
+        <div>
+          <h3>The added budget</h3>
+          <p>note:{submittedExpense.note}</p>
+          <p>amount:{submittedExpense.amount}</p>
         </div>
-      ))}
-    </div>
-  ) : (
-    <div>
-      <h3>Oops! You must be signed in to do that!</h3>
-      <button onClick={() => navigate('/signin')}>Sign In</button>
+      )}
     </div>
   )
 }
