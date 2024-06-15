@@ -33,6 +33,7 @@ const DashSide = () => {
     { month: "March", amount: 1100 },
     { month: "April", amount: 950 },
     { month: "May", amount: 1300 },
+
     { month: "June", amount: 1250 },
     { month: "July", amount: 1400 },
     { month: "August", amount: 1150 },
@@ -239,13 +240,29 @@ const DashSide = () => {
     }
   }, [category])
 
+  const toggleSidebar = (side) => {
+    if (side === "left") {
+      setLeftSidebarMinimized(!leftSidebarMinimized)
+    } else if (side === "right") {
+      setRightSidebarMinimized(!rightSidebarMinimized)
+    }
+  }
+
   return (
     <div>
       {/* Dashboard layout */}
       <div className="dashboard"></div>
+
       <div className="dash-container">
         {/* Left sidebar */}
-        <div className="sidebar left-sidebar">
+        <div
+          className={`sidebar left-sidebar ${
+            leftSidebarMinimized ? "minimized" : ""
+          }`}
+        >
+          <button className="toggle-btn" onClick={() => toggleSidebar("left")}>
+            Toggle
+          </button>
           <h2>Categories</h2>
           <ul>
             <li>
@@ -321,8 +338,16 @@ const DashSide = () => {
         </div>
 
         {/* Right sidebar */}
-        <div className="sidebar right-sidebar">
-          <h2>Options</h2>
+
+        <div
+          className={`sidebar right-sidebar ${
+            rightSidebarMinimized ? "minimized" : ""
+          }`}
+        >
+          <button className="toggle-btn" onClick={() => toggleSidebar("right")}>
+            Toggle
+          </button>
+
           <ul>
             <li>
               <Link to="/Summary">Summary</Link>
@@ -341,10 +366,12 @@ const DashSide = () => {
 }
 
 export default DashSide
-// import React, { useState } from "react"
+{
+  /* // import React, { useState } from "react"
 // import { Link, useLocation } from "react-router-dom"
 // import {
-//   Chart as ChartJS,
+//   Chart as ChartJS, */
+}
 //   CategoryScale,
 //   LinearScale,
 //   BarElement,
