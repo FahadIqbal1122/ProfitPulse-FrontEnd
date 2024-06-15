@@ -8,8 +8,10 @@ const Budget = () => {
     limit: ''
   })
   const [submittedBudget, setSubmittedBudget] = useState(null)
+  const [budgets, setBudgets] = useState([])
 
   let navigate = useNavigate()
+
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
@@ -27,13 +29,13 @@ const Budget = () => {
       name: formValues.name,
       limit: formValues.limit
     })
-    //navigate('/')
+    setBudgets([...budgets, response.data])
   }
   const handleDelete = async (id) => {
-    e.preventDefault()
-
-    await axios.delete('http://localhost:3001/budget/${id}', formValues)
+    await axios.delete(`http://localhost:3001/budget/${id}`)
+    setBudgets(budgets.filter((budget) => budget.id !== id))
   }
+
   useEffect(() => {
     const fetchBudgets = async () => {
       const response = await axios.get('http://localhost:3001/budget/')
@@ -78,9 +80,20 @@ const Budget = () => {
           <p>limit:{submittedBudget.limit}</p>
         </div>
       )}
-      <div>
-        <button onClick={() => handleDelete(budget.id)}>Delete</button>
-      </div>
+      {budgets.length > 0 && (
+        <div>
+          <h3>Budgets</h3>
+          <ul>
+            {budgets.map((budget) => (
+              <li key={budget.id}>
+                <p>Name: {budget.name}</p>
+                <p>Limit: {budget.limit}</p>
+                <button onClick={() => handleDelete(budget.id)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
