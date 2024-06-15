@@ -24,6 +24,7 @@ ChartJS.register(
 const DashSide = () => {
   const [showChart, setShowChart] = useState(false) // State to control the visibility of the expenses chart
   const [showIncomeChart, setShowIncomeChart] = useState(false) // State to control the visibility of the income chart
+  const [showSummary, setShowSummary] = useState(false) // State to control the visibility of the summary section
 
   // Monthly expenses data
   const MonthlyExpenses = [
@@ -59,18 +60,22 @@ const DashSide = () => {
     },
     { month: "December", amount: 3300, description: "Holiday Bonus" },
   ]
-  const budgetLimit = 3000 // Example budget limit for each month
 
-  // Calculate totals and balances
-  const totalExpenses = MonthlyExpenses.reduce(
-    (sum, expense) => sum + expense.amount,
-    0
-  )
-  const totalIncome = MonthlyIncome.reduce(
-    (sum, income) => sum + income.amount,
-    0
-  )
-  const netBalance = totalIncome - totalExpenses
+  // Example budget limits
+  const BudgetLimits = [
+    { month: "January", limit: 1500 },
+    { month: "February", limit: 1200 },
+    { month: "March", limit: 1400 },
+    { month: "April", limit: 1100 },
+    { month: "May", limit: 1600 },
+    { month: "June", limit: 1500 },
+    { month: "July", limit: 1700 },
+    { month: "August", limit: 1300 },
+    { month: "September", limit: 1800 },
+    { month: "October", limit: 1700 },
+    { month: "November", limit: 1900 },
+    { month: "December", limit: 2000 },
+  ]
 
   // Define a color palette for the charts
   const colors = [
@@ -118,6 +123,33 @@ const DashSide = () => {
       },
     ],
   }
+  // Chart data for summary bar chart (expenses, income, and budget limit)
+  const summaryChartData = {
+    labels: MonthlyExpenses.map((item) => item.month),
+    datasets: [
+      {
+        label: "Monthly Expenses",
+        data: MonthlyExpenses.map((item) => item.amount),
+        backgroundColor: colors[0], // Color for expenses
+        borderColor: borderColors[0],
+        borderWidth: 1,
+      },
+      {
+        label: "Monthly Income",
+        data: MonthlyIncome.map((item) => item.amount),
+        backgroundColor: colors[1], // Color for income
+        borderColor: borderColors[1],
+        borderWidth: 1,
+      },
+      {
+        label: "Budget Limit",
+        data: BudgetLimits.map((item) => item.limit),
+        backgroundColor: colors[2], // Color for budget limit
+        borderColor: borderColors[2],
+        borderWidth: 1,
+      },
+    ],
+  }
 
   // Custom tooltip callback to show descriptions
   const chartOptions = {
@@ -155,6 +187,36 @@ const DashSide = () => {
       },
     },
   }
+  // Options for the summary chart (customize as needed)
+  const summaryChartOptions = {
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 16,
+            family: "'Roboto', sans-serif",
+            weight: "500",
+          },
+          color: "#333", // Dark color
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 16,
+            family: "'Roboto', sans-serif",
+          },
+          color: "#333", // Dark color
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        backgroundColor: "rgba(33, 33, 33, 0.8)",
+      },
+    },
+  }
+
   // Extract category from the URL using useLocation
   const location = useLocation()
   const category = location.pathname.split("/")[1] // Assumes the URL structure is "/category"
@@ -238,6 +300,24 @@ const DashSide = () => {
               </div>
             </>
           )}
+          {showSummary && (
+            <>
+              <h1>Financial Summary</h1>
+              <p>
+                Here you can see a summary of your financial information,
+                including budget limits, expense insights, and income details.
+                Use this summary to gain a holistic view of your financial
+                health and make informed decisions.
+              </p>
+              <div className="chart-container">
+                <Bar
+                  data={summaryChartData}
+                  options={summaryChartOptions}
+                  style={{ width: "400px", height: "300px" }}
+                />
+              </div>
+            </>
+          )}
         </div>
 
         {/* Right sidebar */}
@@ -245,7 +325,7 @@ const DashSide = () => {
           <h2>Options</h2>
           <ul>
             <li>
-              <Link to="/Budget">Budget</Link>
+              <Link to="/Summary">Summary</Link>
             </li>
             <li>
               <Link to="/dashboard/exptrack">ExpTrack</Link>
