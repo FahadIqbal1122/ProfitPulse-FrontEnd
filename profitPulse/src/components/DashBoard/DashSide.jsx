@@ -25,6 +25,8 @@ const DashSide = () => {
   const [showChart, setShowChart] = useState(false) // State to control the visibility of the expenses chart
   const [showIncomeChart, setShowIncomeChart] = useState(false) // State to control the visibility of the income chart
   const [showSummary, setShowSummary] = useState(false) // State to control the visibility of the summary section
+  const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false) // State to control the left sidebar minimization
+  const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false) // State to control the right sidebar minimization
 
   // Monthly expenses data
   const MonthlyExpenses = [
@@ -227,9 +229,11 @@ const DashSide = () => {
     if (category === "ExpTracker") {
       setShowChart(true)
       setShowIncomeChart(false)
+      setShowSummary(false)
     } else if (category === "IncomeTrack") {
       setShowChart(false)
       setShowIncomeChart(true)
+      setShowSummary(false)
     } else if (category === "Summary") {
       setShowChart(false)
       setShowIncomeChart(false)
@@ -237,6 +241,7 @@ const DashSide = () => {
     } else {
       setShowChart(false)
       setShowIncomeChart(false)
+      setShowSummary(false)
     }
   }, [category])
 
@@ -317,6 +322,7 @@ const DashSide = () => {
               </div>
             </>
           )}
+
           {showSummary && (
             <>
               <h1>Financial Summary</h1>
@@ -338,7 +344,6 @@ const DashSide = () => {
         </div>
 
         {/* Right sidebar */}
-
         <div
           className={`sidebar right-sidebar ${
             rightSidebarMinimized ? "minimized" : ""
@@ -353,10 +358,10 @@ const DashSide = () => {
               <Link to="/Summary">Summary</Link>
             </li>
             <li>
-              <Link to="/dashboard/exptrack">ExpTrack</Link>
+              <Link to="/ExpTracker">ExpTracker</Link>
             </li>
             <li>
-              <Link to="/Income">Income</Link>
+              <Link to="/IncomeTrack">Income Track</Link>
             </li>
           </ul>
         </div>
