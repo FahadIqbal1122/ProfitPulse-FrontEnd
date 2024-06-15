@@ -59,6 +59,18 @@ const DashSide = () => {
     },
     { month: "December", amount: 3300, description: "Holiday Bonus" },
   ]
+  const budgetLimit = 3000 // Example budget limit for each month
+
+  // Calculate totals and balances
+  const totalExpenses = MonthlyExpenses.reduce(
+    (sum, expense) => sum + expense.amount,
+    0
+  )
+  const totalIncome = MonthlyIncome.reduce(
+    (sum, income) => sum + income.amount,
+    0
+  )
+  const netBalance = totalIncome - totalExpenses
 
   // Define a color palette for the charts
   const colors = [
@@ -155,6 +167,10 @@ const DashSide = () => {
     } else if (category === "IncomeTrack") {
       setShowChart(false)
       setShowIncomeChart(true)
+    } else if (category === "Summary") {
+      setShowChart(false)
+      setShowIncomeChart(false)
+      setShowSummary(true)
     } else {
       setShowChart(false)
       setShowIncomeChart(false)
