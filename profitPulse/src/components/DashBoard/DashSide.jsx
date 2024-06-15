@@ -5,17 +5,27 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Tooltip,
   Legend,
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
 
 // Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend
+)
 
 const DashSide = () => {
-  const [showChart, setShowChart] = useState(false) // Initialize to false
+  const [showChart, setShowChart] = useState(false) // State to control the visibility of the expenses chart
+  const [showIncomeChart, setShowIncomeChart] = useState(false) // State to control the visibility of the income chart
 
+  // Monthly expenses data
   const MonthlyExpenses = [
     { month: "January", amount: 1200 },
     { month: "February", amount: 900 },
@@ -31,7 +41,26 @@ const DashSide = () => {
     { month: "December", amount: 1900 },
   ]
 
-  // Define a color palette
+  const MonthlyIncome = [
+    { month: "January", amount: 2000, description: "Salary" },
+    { month: "February", amount: 2400, description: "Performance Bonus" },
+    { month: "March", amount: 2000, description: "Salary Adjustment" },
+    { month: "April", amount: 2400, description: "Project Incentive" },
+    { month: "May", amount: 2750, description: "Base Compensation" },
+    { month: "June", amount: 2900, description: "Quarterly Bonus" },
+    { month: "July", amount: 3000, description: "Monthly Payroll" },
+    { month: "August", amount: 3100, description: "Employee Compensation" },
+    { month: "September", amount: 3050, description: "Paycheck" },
+    { month: "October", amount: 3150, description: "Wage" },
+    {
+      month: "November",
+      amount: 3200,
+      description: "Year-End Performance Bonus",
+    },
+    { month: "December", amount: 3300, description: "Holiday Bonus" },
+  ]
+
+  // Define a color palette for the charts
   const colors = [
     "rgba(255, 99, 132, 0.6)",
     "rgba(54, 162, 235, 0.6)",
@@ -47,8 +76,10 @@ const DashSide = () => {
     "rgba(255, 159, 64, 0.6)",
   ]
 
+  // Define border colors for the charts
   const borderColors = colors.map((color) => color.replace("0.6", "1"))
 
+  // Chart data for expenses bar chart
   const chartData = {
     labels: MonthlyExpenses.map((item) => item.month),
     datasets: [
@@ -62,15 +93,71 @@ const DashSide = () => {
     ],
   }
 
+  // Chart data for income bar chart with custom tooltips
+  const incomeChartData = {
+    labels: MonthlyIncome.map((item) => item.month),
+    datasets: [
+      {
+        label: "Monthly Income",
+        data: MonthlyIncome.map((item) => item.amount),
+        backgroundColor: colors,
+        borderColor: borderColors,
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  // Custom tooltip callback to show descriptions
+  const chartOptions = {
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 16,
+            family: "'Roboto', sans-serif",
+            weight: "500",
+          },
+          color: "#333", // Dark color
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 16,
+            family: "'Roboto', sans-serif",
+          },
+          color: "#333", // Dark color
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const description = MonthlyIncome[context.dataIndex].description
+            const amount = context.dataset.data[context.dataIndex]
+            return `${description}: $${amount}`
+          },
+        },
+        backgroundColor: "rgba(33, 33, 33, 0.8)",
+      },
+    },
+  }
   // Extract category from the URL using useLocation
   const location = useLocation()
-  const category = location.pathname.split("/")[1] // Assumes "/category"
+  const category = location.pathname.split("/")[1] // Assumes the URL structure is "/category"
 
+  // Effect to toggle chart visibility based on URL category
   useEffect(() => {
     if (category === "ExpTracker") {
       setShowChart(true)
+      setShowIncomeChart(false)
+    } else if (category === "IncomeTrack") {
+      setShowChart(false)
+      setShowIncomeChart(true)
     } else {
       setShowChart(false)
+      setShowIncomeChart(false)
     }
   }, [category])
 
@@ -97,7 +184,7 @@ const DashSide = () => {
 
         {/* Main content area */}
         <div className="content">
-          {category === "ExpTracker" && (
+          {showChart && (
             <>
               <h1>Welcome to My ExpTracker</h1>
               <p>
@@ -107,14 +194,32 @@ const DashSide = () => {
                 showing fluctuations and potential savings areas. Use this tool
                 to achieve your financial goals.
               </p>
-              {showChart && (
-                <div className="chart-container">
-                  <Bar
-                    data={chartData}
-                    style={{ width: "400px", height: "300px" }}
-                  />
-                </div>
-              )}
+              <div className="chart-container">
+                <Bar
+                  data={chartData}
+                  style={{ width: "400px", height: "300px" }}
+                />
+              </div>
+            </>
+          )}
+
+          {showIncomeChart && (
+            <>
+              <h1>Welcome to Income Tracker</h1>
+              <p>
+                Income Tracker displays your monthly income, helping you monitor
+                your earnings and plan your finances accordingly. The bar chart
+                below shows your income distribution, highlighting different
+                sources of income. Use this tool to achieve your financial
+                goals.
+              </p>
+              <div className="chart-container">
+                <Bar
+                  data={incomeChartData}
+                  options={chartOptions}
+                  style={{ width: "400px", height: "300px" }}
+                />
+              </div>
             </>
           )}
         </div>
@@ -140,7 +245,6 @@ const DashSide = () => {
 }
 
 export default DashSide
-
 // import React, { useState } from "react"
 // import { Link, useLocation } from "react-router-dom"
 // import {
