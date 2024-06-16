@@ -1,5 +1,5 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Nav = ({ user, handleLogOut }) => {
   let userOptions
@@ -7,7 +7,7 @@ const Nav = ({ user, handleLogOut }) => {
     userOptions = (
       <nav>
         <h3>
-          Welcome {user.email}!
+          Welcome {user.email}!{' '}
           <Link to="/profile" className="profile-link">
             (View Profile)
           </Link>
@@ -29,7 +29,7 @@ const Nav = ({ user, handleLogOut }) => {
   )
 
   return (
-    <header>
+    <header className="navbar">
       <Link to="/">
         <div className="logo-wrapper" alt="logo">
           <img
