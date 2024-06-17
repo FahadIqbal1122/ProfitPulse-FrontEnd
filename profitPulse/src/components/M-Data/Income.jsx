@@ -38,7 +38,10 @@ const Income = () => {
       name: formValues.name,
       amount: formValues.amount
     })
-    //navigate('/')
+  }
+  const handleDelete = async (incomeId) => {
+    await axios.delete(`http://localhost:3001/income/${incomeId}`)
+    setIncomes(incomes.filter((income) => income._id !== incomeId))
   }
   return (
     <div className="Forms">
@@ -69,18 +72,19 @@ const Income = () => {
           </button>
         </form>
       </div>
-      {submittedIncome && (
+      {/* {submittedIncome && (
         <div>
           <h3>The added budget</h3>
           <p>name:{submittedIncome.name}</p>
           <p>amount:{submittedIncome.amount}</p>
         </div>
-      )}
+      )} */}
       <h3>Income List</h3>
       {incomes.map((income) => (
         <div key={income._id}>
           <h4>name:{income.name}</h4>
           <h4>amount:{income.amount}</h4>
+          <button onClick={() => handleDelete(income._id)}>Delete</button>
         </div>
       ))}
     </div>
