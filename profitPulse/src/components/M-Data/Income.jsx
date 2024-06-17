@@ -1,29 +1,42 @@
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
-import axios from "axios"
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 const Income = () => {
   const [formValues, setFormValues] = useState({
-    name: "",
-    amount: "",
+    name: '',
+    amount: ''
   })
   const [submittedIncome, setSubmittedIncome] = useState(null)
+  const [incomes, setIncomes] = useState([])
 
   let navigate = useNavigate()
+  useEffect(() => {
+    const fetchIncomes = async () => {
+      const response = await axios.get('http://localhost:3001/income/')
+      setIncomes(response.data)
+    }
+    fetchIncomes()
+  }, [])
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await axios.post("http://localhost:3001/income/", formValues)
+    const response = await axios.post(
+      'http://localhost:3001/income/',
+      formValues
+    )
+    const newIncome = response.data
+    setIncomes([...incomes, newIncome])
 
     setFormValues({
-      name: "",
-      amount: "",
+      name: '',
+      amount: ''
     })
     setSubmittedIncome({
       name: formValues.name,
-      amount: formValues.amount,
+      amount: formValues.amount
     })
     //navigate('/')
   }
@@ -63,6 +76,13 @@ const Income = () => {
           <p>amount:{submittedIncome.amount}</p>
         </div>
       )}
+      <h3>Income List</h3>
+      {incomes.map((income) => (
+        <div key={income._id}>
+          <h4>name:{income.name}</h4>
+          <h4>amount:{income.amount}</h4>
+        </div>
+      ))}
     </div>
   )
 }

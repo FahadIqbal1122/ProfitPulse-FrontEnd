@@ -34,6 +34,9 @@ const Budget = () => {
   const handleDelete = async (id) => {
     await axios.delete(`http://localhost:3001/budget/${id}`)
     setBudgets(budgets.filter((budget) => budget.id !== id))
+    const updatedBudgets = budgets.filter((budget) => budget.id !== id)
+
+    setBudgets(updatedBudgets)
   }
 
   useEffect(() => {
