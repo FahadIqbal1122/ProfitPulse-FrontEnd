@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
-const UserProf = (props) => {
+const UserProf = ({ user }) => {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [oldPassword, setOldPassword] = useState("")
@@ -19,7 +19,7 @@ const UserProf = (props) => {
 
     try {
       const response = await axios.put(
-        `/api/update/${user._id}`,
+        `/api/update/${user.id}`,
         {
           oldPassword,
           newPassword,
