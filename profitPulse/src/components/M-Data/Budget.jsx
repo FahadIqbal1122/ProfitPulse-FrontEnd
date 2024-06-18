@@ -11,7 +11,13 @@ const Budget = () => {
   const [budgets, setBudgets] = useState([])
 
   let navigate = useNavigate()
-
+  useEffect(() => {
+    const fetchBudgets = async () => {
+      const response = await axios.get('http://localhost:3001/budget/')
+      setBudgets(response.data)
+    }
+    fetchBudgets()
+  }, [])
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
@@ -21,6 +27,9 @@ const Budget = () => {
 
     await axios.post('http://localhost:3001/budget/', formValues)
 
+    const newBudget = response.data
+    setBudgets([...budgets, newBudget])
+
     setFormValues({
       name: '',
       limit: ''
@@ -29,23 +38,7 @@ const Budget = () => {
       name: formValues.name,
       limit: formValues.limit
     })
-    setBudgets([...budgets, response.data])
   }
-  const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:3001/budget/${id}`)
-    setBudgets(budgets.filter((budget) => budget.id !== id))
-    const updatedBudgets = budgets.filter((budget) => budget.id !== id)
-
-    setBudgets(updatedBudgets)
-  }
-
-  useEffect(() => {
-    const fetchBudgets = async () => {
-      const response = await axios.get('http://localhost:3001/budget/')
-      setBudgets(response.data)
-    }
-    fetchBudgets()
-  }, [])
 
   return (
     <div className="Forms">
@@ -76,27 +69,20 @@ const Budget = () => {
           </button>
         </form>
       </div>
-      {submittedBudget && (
+      {/* {submittedBudget && (
         <div>
           <h3>The added budget</h3>
           <p>name:{submittedBudget.name}</p>
           <p>limit:{submittedBudget.limit}</p>
         </div>
-      )}
-      {budgets.length > 0 && (
-        <div>
-          <h3>Budgets</h3>
-          <ul>
-            {budgets.map((budget) => (
-              <li key={budget.id}>
-                <p>Name: {budget.name}</p>
-                <p>Limit: {budget.limit}</p>
-                <button onClick={() => handleDelete(budget.id)}>Delete</button>
-              </li>
-            ))}
-          </ul>
+      )} */}
+      <h3>Income List</h3>
+      {budgets.map((budget) => (
+        <div key={budget._id}>
+          <h4>name:{budget.name}</h4>
+          <h4>amount:{budget.amount}</h4>
         </div>
-      )}
+      ))}
     </div>
   )
 }
