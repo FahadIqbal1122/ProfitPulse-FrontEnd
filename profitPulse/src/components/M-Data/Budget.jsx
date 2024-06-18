@@ -25,7 +25,10 @@ const Budget = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await axios.post('http://localhost:3001/budget/', formValues)
+    const response = await axios.post(
+      'http://localhost:3001/budget/',
+      formValues
+    )
 
     const newBudget = response.data
     setBudgets([...budgets, newBudget])

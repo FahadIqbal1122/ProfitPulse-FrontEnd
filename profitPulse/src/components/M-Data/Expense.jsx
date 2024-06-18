@@ -1,31 +1,45 @@
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
-import axios from "axios"
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Expense = () => {
   const [formValues, setFormValues] = useState({
-    note: "",
-    amount: "",
+    note: '',
+    amount: ''
   })
   const [submittedExpense, setSubmittedExpense] = useState(null)
+  const [expenses, setExpenses] = useState([])
 
   let navigate = useNavigate()
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      const response = await axios.get('http://localhost:3001/expense/')
+      setExpenses(response.data)
+    }
+    fetchExpenses()
+  }, [])
   const handleChange = (e) => {
-    setFormValues({ ...formValues, [e.target.note]: e.target.value })
+    setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await axios.post("http://localhost:3001/expense/", formValues)
+    const response = await axios.post(
+      'http://localhost:3001/expense/',
+      formValues
+    )
+
+    const newExpense = response.data
+    setExpenses([...expenses, newExpense])
 
     setFormValues({
-      note: "",
-      amount: "",
+      note: '',
+      amount: ''
     })
     setSubmittedExpense({
       note: formValues.note,
-      amount: formValues.amount,
+      amount: formValues.amount
     })
     //navigate('/')
   }
@@ -58,13 +72,20 @@ const Expense = () => {
           </button>
         </form>
       </div>
-      {submittedExpense && (
+      {/* {submittedExpense && (
         <div>
           <h3>The added budget</h3>
           <p>note:{submittedExpense.note}</p>
           <p>amount:{submittedExpense.amount}</p>
         </div>
-      )}
+      )} */}
+      <h3>Expense List</h3>
+      {expenses.map((expense) => (
+        <div key={expense._id}>
+          <h4>name:{expense.name}</h4>
+          <h4>amount:{expense.amount}</h4>
+        </div>
+      ))}
     </div>
   )
 }

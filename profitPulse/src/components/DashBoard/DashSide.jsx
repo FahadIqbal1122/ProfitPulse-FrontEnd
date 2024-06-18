@@ -130,7 +130,7 @@ const DashSide = () => {
               <Link to="/Budget">Budget</Link>
             </li>
             <li>
-              <Link to="/dashboard/exptrack">ExpTrack</Link>
+              <Link to="/Expense">Expense</Link>
             </li>
             <li>
               <Link to="/Income">Income</Link>
