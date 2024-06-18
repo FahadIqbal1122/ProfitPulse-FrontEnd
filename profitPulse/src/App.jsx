@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react'
-import { Route, Routes } from 'react-router'
-import { CheckSession } from './services/Auth'
-import Nav from './components/Nav'
-import SignUp from './components/Auth/SignUp'
-import LogIn from './components/Auth/Login'
-import Budget from './components/M-Data/Budget'
-import Expense from './components/M-Data/Expense'
-import Income from './components/M-Data/Income'
-import DashSide from './components/DashBoard/DashSide'
-import './App.css'
+import { useState, useEffect, useContext } from "react"
+import { useParams } from "react-router-dom"
+import { Route, Routes } from "react-router"
+import { CheckSession } from "./services/Auth"
+import Nav from "./components/Nav"
+import SignUp from "./components/Auth/SignUp"
+import LogIn from "./components/Auth/Login"
+import Budget from "./components/M-Data/Budget"
+import Expense from "./components/M-Data/Expense"
+import Income from "./components/M-Data/Income"
+import DashSide from "./components/DashBoard/DashSide"
+import UserProf from "./components/UserProf"
+import "./App.css"
+import axios from "axios"
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -43,6 +46,7 @@ const App = () => {
           <Route path="/Expense" element={<Expense />} />
           <Route path="/Income" element={<Income />} />
           <Route path="/*" element={<DashSide />} />
+          <Route path="/profile" element={<UserProf />} />
         </Routes>
       </main>
     </div>

@@ -1,12 +1,17 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react"
+import { Link } from "react-router-dom"
 
 const Nav = ({ user, handleLogOut }) => {
   let userOptions
   if (user) {
     userOptions = (
       <nav>
-        <h3>Welcome {user.email}!</h3>
+        <h3>
+          Welcome {user.email}!{" "}
+          <Link to="/profile" className="profile-link">
+            (View Profile)
+          </Link>
+        </h3>
         <Link to="/dashboard">Dashboard</Link>
         <Link onClick={handleLogOut} to="/">
           Sign Out
@@ -24,7 +29,7 @@ const Nav = ({ user, handleLogOut }) => {
   )
 
   return (
-    <header>
+    <header className="navbar">
       <Link to="/">
         <div className="logo-wrapper" alt="logo">
           <img
