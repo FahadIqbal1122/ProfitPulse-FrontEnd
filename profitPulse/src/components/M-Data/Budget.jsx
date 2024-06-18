@@ -39,6 +39,10 @@ const Budget = () => {
       limit: formValues.limit
     })
   }
+  const handleDelete = async (budgetId) => {
+    await axios.delete(`http://localhost:3001/budget/${budgetId}`)
+    setBudgets(budgets.filter((budget) => budget._id !== budgetId))
+  }
 
   return (
     <div className="Forms">
@@ -76,11 +80,12 @@ const Budget = () => {
           <p>limit:{submittedBudget.limit}</p>
         </div>
       )} */}
-      <h3>Income List</h3>
+      <h3>budget List</h3>
       {budgets.map((budget) => (
         <div key={budget._id}>
           <h4>name:{budget.name}</h4>
           <h4>amount:{budget.amount}</h4>
+          <button onClick={() => handleDelete(budget._id)}>Delete</button>
         </div>
       ))}
     </div>
