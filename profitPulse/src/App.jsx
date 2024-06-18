@@ -12,26 +12,8 @@ import DashSide from "./components/DashBoard/DashSide"
 import UserProf from "./components/UserProf"
 import "./App.css"
 import axios from "axios"
-import UserContext from "./components/Context/UserContext"
 
 const App = () => {
-  const { userId } = useParams()
-  const [userData, setUserData] = useState(null)
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/ai/${userId}`)
-        console.log(response.data)
-        setUserData(response.data)
-      } catch (error) {
-        console.error("Error fetching user data:", error)
-      }
-    }
-
-    fetchUserData()
-  }, [userId])
-
   const [user, setUser] = useState(null)
 
   const handleLogOut = () => {
