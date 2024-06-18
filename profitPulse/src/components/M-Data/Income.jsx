@@ -67,7 +67,6 @@ const Income = () => {
       })
     )
     setEditFormValues({
-      _id: '',
       name: '',
       amount: ''
     })
