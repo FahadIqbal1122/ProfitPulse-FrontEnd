@@ -43,6 +43,10 @@ const Expense = () => {
     })
     //navigate('/')
   }
+  const handleDelete = async (expenseId) => {
+    await axios.delete(`http://localhost:3001/expense/${expenseId}`)
+    setExpenses(expenses.filter((expense) => expense._id !== expenseId))
+  }
   return (
     <div className="Forms">
       <div>
@@ -82,8 +86,9 @@ const Expense = () => {
       <h3>Expense List</h3>
       {expenses.map((expense) => (
         <div key={expense._id}>
-          <h4>name:{expense.name}</h4>
+          <h4>note:{expense.note}</h4>
           <h4>amount:{expense.amount}</h4>
+          <button onClick={() => handleDelete(expense._id)}>Delete</button>
         </div>
       ))}
     </div>
