@@ -7,10 +7,10 @@ import {
   BarElement,
   ArcElement,
   Tooltip,
-  Legend,
-} from "chart.js"
-import { Bar } from "react-chartjs-2"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+  Legend
+} from 'chart.js'
+import { Bar } from 'react-chartjs-2'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faFilm,
   faLightbulb,
@@ -42,23 +42,19 @@ const DashSide = () => {
 
   // Monthly expenses data
   const MonthlyExpenses = [
+    { month: 'January', amount: 1200 },
+    { month: 'February', amount: 900 },
+    { month: 'March', amount: 1100 },
+    { month: 'April', amount: 950 },
+    { month: 'May', amount: 1300 },
+    { month: 'June', amount: 1250 },
+    { month: 'July', amount: 1400 },
+    { month: 'August', amount: 1150 },
+    { month: 'September', amount: 1600 },
+    { month: 'October', amount: 1500 },
+    { month: 'November', amount: 1700 },
+    { month: 'December', amount: 1900 }
 
-    { month: "January", amount: 1200, description: "Groceries" },
-    { month: "February", amount: 900, description: "Dining Out" },
-    { month: "March", amount: 1100, description: "Utilities" },
-    { month: "April", amount: 950, description: "Transport" },
-    { month: "May", amount: 1300, description: "Clothing Apparel" },
-    { month: "June", amount: 1250, description: "Home Maintenance" },
-    { month: "July", amount: 1400, description: "Insurance" },
-    { month: "August", amount: 1150, description: "Health and Fitness" },
-    {
-      month: "September",
-      amount: 1600,
-      description: "Entertainment and Leisure",
-    },
-    { month: "October", amount: 1500, description: "Travel and Vacation" },
-    { month: "November", amount: 1700, description: "Education and Training" },
-    { month: "December", amount: 1900, description: "Miscellaneous" },
   ]
 
   // Monthly income data
@@ -172,12 +168,13 @@ const DashSide = () => {
         backgroundColor: colors[2], // Color for budget limit
         borderColor: borderColors[2],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-    ],
+        barThickness: 15 // Adjust bar thickness here
+      }
+    ]
   }
 
-  // Custom tooltip callback to show descriptions for both income and expenses
+  // Custom tooltip callback to show descriptions
+
   const chartOptions = {
     scales: {
       x: {
@@ -356,8 +353,9 @@ const DashSide = () => {
             leftSidebarMinimized ? "minimized" : ""
           }`}
         >
-          <button className="toggle-btn" onClick={() => toggleSidebar("left")}>
-            {leftSidebarMinimized ? ">" : "<"}
+          <button className="toggle-btn" onClick={() => toggleSidebar('left')}>
+            {leftSidebarMinimized ? '>' : '<'}
+
           </button>
           <h2>Categories</h2>
           <ul>
@@ -486,8 +484,9 @@ const DashSide = () => {
             rightSidebarMinimized ? "minimized" : ""
           }`}
         >
-          <button className="toggle-btn" onClick={() => toggleSidebar("right")}>
-            {leftSidebarMinimized ? "<" : ">"}
+          <button className="toggle-btn" onClick={() => toggleSidebar('right')}>
+            {leftSidebarMinimized ? '<' : '>'}
+
           </button>
           <h2>Options</h2>
           <ul>
