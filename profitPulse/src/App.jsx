@@ -14,7 +14,7 @@ import "./App.css"
 import axios from "axios"
 
 const App = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState({})
 
   const handleLogOut = () => {
     // Reset all auth related state and clear localStorage
@@ -33,7 +33,7 @@ const App = () => {
       checkToken()
     }
   }, [])
-  console.log(user)
+  // console.log(user)
   return (
     <div className="App">
       <Nav user={user} handleLogOut={handleLogOut} />
@@ -46,7 +46,7 @@ const App = () => {
           <Route path="/Expense" element={<Expense />} />
           <Route path="/Income" element={<Income />} />
           <Route path="/*" element={<DashSide />} />
-          <Route path="/profile" element={<UserProf />} />
+          <Route path="/profile" element={<UserProf user={user} />} />
         </Routes>
       </main>
     </div>
