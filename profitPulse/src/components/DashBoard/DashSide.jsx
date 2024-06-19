@@ -1,3 +1,4 @@
+import axios from "axios"
 import React, { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import {
@@ -38,7 +39,7 @@ ChartJS.register(
   Legend
 )
 
-const DashSide = () => {
+const DashSide = ({ user }) => {
   const [showChart, setShowChart] = useState(false) // State to control the visibility of the expenses chart
   const [showIncomeChart, setShowIncomeChart] = useState(false) // State to control the visibility of the income chart
   const [showSummary, setShowSummary] = useState(false) // State to control the visibility of the summary section
@@ -295,14 +296,29 @@ const DashSide = () => {
     setNewLimit(0)
     setNewAmount(0)
   }
-
+  const [details, setDetails] = useState({
+    user: {},
+    incomes: [],
+    expenses: [],
+    budgets: [],
+  })
+  useEffect(() => {
+    const fetchDetails = async () => {
+      if (!user.id) return
+      const response = await axios.get(`http://localhost:3001/ai/${user.id}`)
+      setDetails(response.data)
+      console.log(response.data.budgets)
+    }
+    fetchDetails()
+  }, [user.id])
+  console.log(`detaiLS: ${details}`)
   // Updated summary chart data with user budgets
   const updatedSummaryChartData = {
-    labels: userBudgets.map((item) => item.category),
+    labels: details.budgets.map((item) => item.name),
     datasets: [
       {
         label: "Budget Limit",
-        data: userBudgets.map((item) => item.limit),
+        data: details.budgets.map((item) => item.limit),
         backgroundColor: colors[2], // Color for budget limit
         borderColor: borderColors[2],
         borderWidth: 1,
@@ -310,7 +326,7 @@ const DashSide = () => {
       },
       {
         label: "Amount Spent",
-        data: userBudgets.map((item) => item.amount),
+        data: details.budgets.map((item) => item.amount),
         backgroundColor: colors[0], // Color for amount spent
         borderColor: borderColors[0],
         borderWidth: 1,

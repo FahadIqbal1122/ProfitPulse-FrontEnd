@@ -18,7 +18,9 @@ const Budget = ({ user }) => {
   let navigate = useNavigate()
   useEffect(() => {
     const fetchBudgets = async () => {
-      const response = await axios.get("http://localhost:3001/budget/")
+      const response = await axios.get(
+        `http://localhost:3001/budget/${user.id}`
+      )
       setBudgets(response.data)
     }
     fetchBudgets()
@@ -140,14 +142,15 @@ const Budget = ({ user }) => {
         </form>
       )}
       <h3>budget List</h3>
-      {budgets.map((budget) => (
-        <div key={budget._id}>
-          <h4>name:{budget.name}</h4>
-          <h4>limit:{budget.limit}</h4>
-          <button onClick={() => handleDelete(budget._id)}>Delete</button>
-          <button onClick={() => handleEdit(budget)}>Edit</button>
-        </div>
-      ))}
+      {budgets.length > 0 &&
+        budgets.map((budget) => (
+          <div key={budget._id}>
+            <h4>name:{budget.name}</h4>
+            <h4>limit:{budget.limit}</h4>
+            <button onClick={() => handleDelete(budget._id)}>Delete</button>
+            <button onClick={() => handleEdit(budget)}>Edit</button>
+          </div>
+        ))}
     </div>
   )
 }
