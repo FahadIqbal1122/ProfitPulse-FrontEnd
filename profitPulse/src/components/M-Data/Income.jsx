@@ -1,28 +1,31 @@
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
-const Income = () => {
+const Income = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    name: '',
-    amount: ''
+    name: "",
+    amount: "",
   })
   const [submittedIncome, setSubmittedIncome] = useState(null)
   const [incomes, setIncomes] = useState([])
 
   const [editFormValues, setEditFormValues] = useState({
-    name: '',
-    amount: ''
+    name: "",
+    amount: "",
   })
 
   let navigate = useNavigate()
   useEffect(() => {
     const fetchIncomes = async () => {
-      const response = await axios.get('http://localhost:3001/income/')
+      console.log(`user.id ${user.id}`)
+      const response = await axios.get(
+        `http://localhost:3001/income/${user.id}`
+      )
       setIncomes(response.data)
     }
     fetchIncomes()
-  }, [])
+  }, [user.id])
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
@@ -32,25 +35,29 @@ const Income = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const response = await axios.post(
-      'http://localhost:3001/income/',
-      formValues
-    )
+    const data = {
+      ...formValues,
+      userId: user.id,
+    }
+
+    const response = await axios.post("http://localhost:3001/income/", data)
+    console.log(data)
+
     const newIncome = response.data
     setIncomes([...incomes, newIncome])
 
     setFormValues({
-      name: '',
-      amount: ''
+      name: "",
+      amount: "",
     })
     setSubmittedIncome({
       name: formValues.name,
-      amount: formValues.amount
+      amount: formValues.amount,
     })
   }
   const handleUpdate = async (e) => {
     e.preventDefault()
-
+    console.log(editFormValues)
     const response = await axios.put(
       `http://localhost:3001/income/${editFormValues._id}`,
       editFormValues
@@ -67,15 +74,15 @@ const Income = () => {
       })
     )
     setEditFormValues({
-      name: '',
-      amount: ''
+      name: "",
+      amount: "",
     })
   }
   const handleDelete = async (incomeId) => {
     await axios.delete(`http://localhost:3001/income/${incomeId}`)
     setIncomes(incomes.filter((income) => income._id !== incomeId))
   }
-  const handleEdit = (income) => {
+  const handleEdit = async (income, incomeId) => {
     setEditFormValues(income)
   }
   return (

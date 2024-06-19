@@ -42,10 +42,10 @@ const App = () => {
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<SignUp />} />
-          <Route path="/Budget" element={<Budget />} />
-          <Route path="/Expense" element={<Expense />} />
-          <Route path="/Income" element={<Income />} />
-          <Route path="/*" element={<DashSide />} />
+          <Route path="/Budget" element={<Budget user={user} />} />
+          <Route path="/Expense" element={<Expense user={user} />} />
+          <Route path="/Income" element={<Income user={user} />} />
+          <Route path="/*" element={<DashSide user={user} />} />
           <Route path="/profile" element={<UserProf user={user} />} />
         </Routes>
       </main>
