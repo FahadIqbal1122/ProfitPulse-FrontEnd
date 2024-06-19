@@ -1,24 +1,21 @@
-import { useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
-import axios from "axios"
-
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 const Budget = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    name: "",
-    limit: "",
+    name: '',
+    limit: ''
   })
   const [submittedBudget, setSubmittedBudget] = useState(null)
   const [budgets, setBudgets] = useState([])
-
   const [editFormValues, setEditFormValues] = useState({
-    name: "",
-    limit: "",
+    name: '',
+    limit: ''
   })
-
   let navigate = useNavigate()
   useEffect(() => {
     const fetchBudgets = async () => {
-      const response = await axios.get("http://localhost:3001/budget/")
+      const response = await axios.get('http://localhost:3001/budget/')
       setBudgets(response.data)
     }
     fetchBudgets()
@@ -29,39 +26,31 @@ const Budget = ({ user }) => {
   const handleEditChange = (e) => {
     setEditFormValues({ ...editFormValues, [e.target.name]: e.target.value })
   }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     const data = {
       ...formValues,
-      userId: user.id,
+      userId: user.id
     }
-
-    const response = await axios.post("http://localhost:3001/budget/", data)
-
+    const response = await axios.post('http://localhost:3001/budget/', data)
     console.log(data)
-
     const newBudget = response.data
     setBudgets([...budgets, newBudget])
-
     setFormValues({
-      name: "",
-      limit: "",
+      name: '',
+      limit: ''
     })
     setSubmittedBudget({
       name: formValues.name,
-      limit: formValues.limit,
+      limit: formValues.limit
     })
   }
   const handleUpdate = async (e) => {
     e.preventDefault()
-
     const response = await axios.put(
       `http://localhost:3001/budget/${editFormValues._id}`,
       editFormValues
     )
-
     const updatedBudget = response.data
     setBudgets((lastBudgets) =>
       lastBudgets.map((budget) => {
@@ -73,8 +62,8 @@ const Budget = ({ user }) => {
       })
     )
     setEditFormValues({
-      name: "",
-      limit: "",
+      name: '',
+      limit: ''
     })
   }
   const handleDelete = async (budgetId) => {
@@ -84,7 +73,6 @@ const Budget = ({ user }) => {
   const handleEdit = (budget) => {
     setEditFormValues(budget)
   }
-
   return (
     <div className="Forms">
       <div>
