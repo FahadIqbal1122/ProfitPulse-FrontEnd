@@ -10,13 +10,13 @@ import {
   Legend,
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faFilm,
   faLightbulb,
   faMoneyCheckAlt,
 } from "@fortawesome/free-solid-svg-icons"
+
 // Register Chart.js components
 ChartJS.register(
   CategoryScale,
@@ -42,6 +42,7 @@ const DashSide = () => {
 
   // Monthly expenses data
   const MonthlyExpenses = [
+
     { month: "January", amount: 1200, description: "Groceries" },
     { month: "February", amount: 900, description: "Dining Out" },
     { month: "March", amount: 1100, description: "Utilities" },
@@ -175,6 +176,7 @@ const DashSide = () => {
       },
     ],
   }
+
   // Custom tooltip callback to show descriptions for both income and expenses
   const chartOptions = {
     scales: {
@@ -243,6 +245,7 @@ const DashSide = () => {
     },
     plugins: {
       tooltip: {
+
         callbacks: {
           label: function (context) {
             const label = context.dataset.label
