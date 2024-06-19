@@ -49,7 +49,7 @@ const DashSide = () => {
     { month: "April", amount: 950, description: "Transport" },
     { month: "May", amount: 1300, description: "Clothing Apparel" },
     { month: "June", amount: 1250, description: "Home Maintenance" },
-    { month: "July", amount: 1400, description: "Home Maintenance" },
+    { month: "July", amount: 1400, description: "Insurance" },
     { month: "August", amount: 1150, description: "Health and Fitness" },
     {
       month: "September",
