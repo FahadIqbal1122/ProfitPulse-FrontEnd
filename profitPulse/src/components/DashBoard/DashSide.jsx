@@ -12,21 +12,10 @@ import {
 import { Bar } from "react-chartjs-2"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
-  faUtensils,
   faFilm,
   faLightbulb,
   faMoneyCheckAlt,
 } from "@fortawesome/free-solid-svg-icons"
-
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Tooltip,
-  Legend
-)
 
 // Register Chart.js components
 ChartJS.register(
@@ -53,18 +42,23 @@ const DashSide = () => {
 
   // Monthly expenses data
   const MonthlyExpenses = [
-    { month: "January", amount: 1200 },
-    { month: "February", amount: 900 },
-    { month: "March", amount: 1100 },
-    { month: "April", amount: 950 },
-    { month: "May", amount: 1300 },
-    { month: "June", amount: 1250 },
-    { month: "July", amount: 1400 },
-    { month: "August", amount: 1150 },
-    { month: "September", amount: 1600 },
-    { month: "October", amount: 1500 },
-    { month: "November", amount: 1700 },
-    { month: "December", amount: 1900 },
+
+    { month: "January", amount: 1200, description: "Groceries" },
+    { month: "February", amount: 900, description: "Dining Out" },
+    { month: "March", amount: 1100, description: "Utilities" },
+    { month: "April", amount: 950, description: "Transport" },
+    { month: "May", amount: 1300, description: "Clothing Apparel" },
+    { month: "June", amount: 1250, description: "Home Maintenance" },
+    { month: "July", amount: 1400, description: "Insurance" },
+    { month: "August", amount: 1150, description: "Health and Fitness" },
+    {
+      month: "September",
+      amount: 1600,
+      description: "Entertainment and Leisure",
+    },
+    { month: "October", amount: 1500, description: "Travel and Vacation" },
+    { month: "November", amount: 1700, description: "Education and Training" },
+    { month: "December", amount: 1900, description: "Miscellaneous" },
   ]
 
   // Monthly income data
@@ -183,7 +177,7 @@ const DashSide = () => {
     ],
   }
 
-  // Custom tooltip callback to show descriptions
+  // Custom tooltip callback to show descriptions for both income and expenses
   const chartOptions = {
     scales: {
       x: {
@@ -210,17 +204,23 @@ const DashSide = () => {
       tooltip: {
         callbacks: {
           label: function (context) {
-            const description = MonthlyIncome[context.dataIndex].description
-            const amount = context.dataset.data[context.dataIndex]
-            return `${description}: $${amount}`
+            const label = context.dataset.label
+            const dataIndex = context.dataIndex
+            const amount = context.dataset.data[dataIndex]
+            let description
+            if (label === "Monthly Income") {
+              description = MonthlyIncome[dataIndex].description
+              return `Income: ${description}: $${amount}`
+            } else {
+              description = MonthlyExpenses[dataIndex].description
+              return `Expense: ${description}: $${amount}`
+            }
           },
         },
         backgroundColor: "rgba(33, 33, 33, 0.8)",
       },
     },
   }
-
-  // Options for the summary chart (customize as needed)
   const summaryChartOptions = {
     scales: {
       x: {
@@ -245,6 +245,26 @@ const DashSide = () => {
     },
     plugins: {
       tooltip: {
+
+        callbacks: {
+          label: function (context) {
+            const label = context.dataset.label
+            const dataIndex = context.dataIndex
+            const amount = context.dataset.data[dataIndex]
+            let description
+            if (label === "Monthly Income") {
+              description = MonthlyIncome[dataIndex].description
+              return `Income: ${description}: $${amount}`
+            } else if (label === "Monthly Expenses") {
+              description = MonthlyExpenses[dataIndex].description
+              return `Expense: ${description}: $${amount}`
+            } else if (label === "Budget Limit") {
+              description = BudgetLimits[dataIndex].month
+              return `Budget Limit: ${description}: $${amount}`
+            }
+            return ""
+          },
+        },
         backgroundColor: "rgba(33, 33, 33, 0.8)",
       },
     },
@@ -320,12 +340,10 @@ const DashSide = () => {
   }
   // Icon mapping for budget categories
   const iconMap = {
-    Food: faUtensils,
     Entertainment: faFilm,
     Utilities: faLightbulb,
     Income: faMoneyCheckAlt,
   }
-
   return (
     <div>
       {/* Dashboard layout */}
