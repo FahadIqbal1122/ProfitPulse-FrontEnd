@@ -15,7 +15,7 @@ header {
   background-color: #5d5c61;
   color: #f0f0f0;
   position: fixed;
-  width: 100%;
+  width: 97%;
   top: 0;
   z-index: 1000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -50,7 +50,7 @@ nav a:hover {
 }
 
 .main-content {
-  margin-top: 80px; /* Adjust according to the height of your navbar */
+  margin-top: 80px;
 }
 
 .signin {
@@ -124,7 +124,6 @@ button:hover:not(:disabled) {
   border-radius: 10px;
 }
 
-/* Profile link style */
 .profile-link {
   color: #a29bfe;
   text-decoration: underline;
@@ -135,7 +134,6 @@ button:hover:not(:disabled) {
   color: #dcdde1;
 }
 
-/* Dashboard style */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -147,7 +145,6 @@ button:hover:not(:disabled) {
   margin-top: 20px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -168,7 +165,6 @@ button:hover:not(:disabled) {
     margin: 80px 20px 0 20px; /* Reduced margins for mobile view */
   }
 }
-/* Container Styles */
 .container {
   margin-top: 2rem;
   padding: 2rem;
@@ -189,7 +185,6 @@ button:hover:not(:disabled) {
   margin-bottom: 2rem;
 }
 
-/* Row and Column Layout */
 .row {
   display: flex;
   justify-content: space-between;
@@ -218,7 +213,6 @@ button:hover:not(:disabled) {
   align-items: flex-start;
 }
 
-/* List Group Styles */
 .list-group {
   list-style: none;
   padding: 0;
@@ -235,7 +229,6 @@ button:hover:not(:disabled) {
   text-align: center;
 }
 
-/* Form Styles */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -265,7 +258,6 @@ form {
   margin: 0 auto;
 }
 
-/* Button Styles */
 .btn {
   display: inline-block;
   font-weight: 400;
@@ -286,7 +278,6 @@ form {
   border-color: #004085;
 }
 
-/* Text Styles */
 .text-danger {
   color: #dc3545;
   font-size: 0.875rem;
@@ -411,7 +402,6 @@ form {
   margin-right: 50px;
 }
 
-/* Chart Container Styles */
 .chart-container {
   display: flex;
   justify-content: center;
@@ -419,7 +409,6 @@ form {
   margin-top: 20px;
 }
 
-/* Forms Section Styles */
 .Forms {
   display: flex;
   flex-direction: column;
@@ -485,7 +474,6 @@ form {
   transform: scale(1.05);
 }
 
-/* Submitted Info Styles */
 .submitted-info {
   margin-top: 20px;
   padding: 10px;

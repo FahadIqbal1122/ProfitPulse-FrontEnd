@@ -1,28 +1,42 @@
-import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import axios from "axios"
 
-const Expense = () => {
+const Expense = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    note: '',
-    amount: ''
+    note: "",
+    amount: "",
   })
   const [submittedExpense, setSubmittedExpense] = useState(null)
   const [expenses, setExpenses] = useState([])
+  const [budgets, setBudgets] = useState([])
 
   const [editFormValues, setEditFormValues] = useState({
-    note: '',
-    amount: ''
+    note: "",
+    amount: "",
   })
 
   let navigate = useNavigate()
   useEffect(() => {
     const fetchExpenses = async () => {
-      const response = await axios.get('http://localhost:3001/expense/')
+      if (!user.id) return
+      const response = await axios.get(
+        `http://localhost:3001/expense/${user.id}`
+      )
       setExpenses(response.data)
     }
+    const fetchBudgets = async () => {
+      if (!user.id) return
+      const response = await axios.get(
+        `http://localhost:3001/budget/${user.id}`
+      )
+      setBudgets(response.data)
+    }
+
     fetchExpenses()
-  }, [])
+    fetchBudgets()
+  }, [user.id])
+
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
@@ -34,21 +48,25 @@ const Expense = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const response = await axios.post(
-      'http://localhost:3001/expense/',
-      formValues
-    )
+    const data = {
+      note: formValues.note,
+      amount: formValues.amount,
+      userId: user.id,
+      budgetId: formValues.budgetId,
+    }
+
+    const response = await axios.post("http://localhost:3001/expense/", data)
 
     const newExpense = response.data
     setExpenses([...expenses, newExpense])
 
     setFormValues({
-      note: '',
-      amount: ''
+      note: "",
+      amount: "",
     })
     setSubmittedExpense({
       note: formValues.note,
-      amount: formValues.amount
+      amount: formValues.amount,
     })
     //navigate('/')
   }
@@ -71,8 +89,8 @@ const Expense = () => {
       })
     )
     setEditFormValues({
-      name: '',
-      amount: ''
+      name: "",
+      amount: "",
     })
   }
   const handleDelete = async (expenseId) => {
@@ -105,6 +123,21 @@ const Expense = () => {
               value={formValues.amount}
               required
             />
+          </div>
+          <div>
+            <label htmlFor="budget">Budget</label>
+            {budgets ? (
+              <select name="budgetId" onChange={handleChange}>
+                <option value="">Select Budget</option>
+                {budgets.map((budget) => (
+                  <option key={budget._id} value={budget._id}>
+                    {budget.name} - {budget.limit - budget.amount}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p>Loading budgets...</p>
+            )}
           </div>
           <button disabled={!formValues.note || !formValues.amount}>
             Add expense

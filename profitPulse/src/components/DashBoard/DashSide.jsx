@@ -11,13 +11,13 @@ import {
   Legend
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faFilm,
   faLightbulb,
   faMoneyCheckAlt
 } from '@fortawesome/free-solid-svg-icons'
+
 // Register Chart.js components
 ChartJS.register(
   CategoryScale,
@@ -43,22 +43,18 @@ const DashSide = () => {
 
   // Monthly expenses data
   const MonthlyExpenses = [
-    { month: 'January', amount: 1200, description: 'Groceries' },
-    { month: 'February', amount: 900, description: 'Dining Out' },
-    { month: 'March', amount: 1100, description: 'Utilities' },
-    { month: 'April', amount: 950, description: 'Transport' },
-    { month: 'May', amount: 1300, description: 'Clothing Apparel' },
-    { month: 'June', amount: 1250, description: 'Home Maintenance' },
-    { month: 'July', amount: 1400, description: 'Insurance' },
-    { month: 'August', amount: 1150, description: 'Health and Fitness' },
-    {
-      month: 'September',
-      amount: 1600,
-      description: 'Entertainment and Leisure'
-    },
-    { month: 'October', amount: 1500, description: 'Travel and Vacation' },
-    { month: 'November', amount: 1700, description: 'Education and Training' },
-    { month: 'December', amount: 1900, description: 'Miscellaneous' }
+    { month: 'January', amount: 1200 },
+    { month: 'February', amount: 900 },
+    { month: 'March', amount: 1100 },
+    { month: 'April', amount: 950 },
+    { month: 'May', amount: 1300 },
+    { month: 'June', amount: 1250 },
+    { month: 'July', amount: 1400 },
+    { month: 'August', amount: 1150 },
+    { month: 'September', amount: 1600 },
+    { month: 'October', amount: 1500 },
+    { month: 'November', amount: 1700 },
+    { month: 'December', amount: 1900 }
   ]
   // Monthly income data
   const MonthlyIncome = [
@@ -175,7 +171,9 @@ const DashSide = () => {
       }
     ]
   }
-  // Custom tooltip callback to show descriptions for both income and expenses
+
+  // Custom tooltip callback to show descriptions
+
   const chartOptions = {
     scales: {
       x: {
@@ -257,7 +255,7 @@ const DashSide = () => {
               return `Expense: ${description}: $${amount}`
             } else if (label === 'Budget Limit') {
               description = BudgetLimits[dataIndex].month
-              return Budget`Limit: ${description}: $${amount}`
+              return `Budget Limit: ${description}: $${amount}`
             }
             return ''
           }
