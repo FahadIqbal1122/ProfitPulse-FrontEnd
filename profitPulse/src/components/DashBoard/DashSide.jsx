@@ -10,15 +10,6 @@ import {
   Legend
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-<<<<<<< HEAD
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
-
-const DashSide = () => {
-  const [showChart, setShowChart] = useState(false)
-  const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false)
-  const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false)
-=======
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faUtensils,
@@ -53,7 +44,6 @@ const DashSide = () => {
   const [showSummary, setShowSummary] = useState(false) // State to control the visibility of the summary section
   const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false) // State to control the left sidebar minimization
   const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false) // State to control the right sidebar minimization
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
 
   // State for user-defined budgets
   const [userBudgets, setUserBudgets] = useState([])
@@ -64,13 +54,6 @@ const DashSide = () => {
   // Monthly expenses data
   const MonthlyExpenses = [
     { month: 'January', amount: 1200 },
-<<<<<<< HEAD
-    { month: 'February', amount: 1500 },
-    { month: 'March', amount: 1100 },
-    { month: 'April', amount: 1700 },
-    { month: 'May', amount: 1300 },
-    { month: 'June', amount: 1600 }
-=======
     { month: 'February', amount: 900 },
     { month: 'March', amount: 1100 },
     { month: 'April', amount: 950 },
@@ -82,7 +65,6 @@ const DashSide = () => {
     { month: 'October', amount: 1500 },
     { month: 'November', amount: 1700 },
     { month: 'December', amount: 1900 }
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
   ]
 
   // Monthly income data
@@ -147,11 +129,6 @@ const DashSide = () => {
       {
         label: 'Monthly Expenses',
         data: MonthlyExpenses.map((item) => item.amount),
-<<<<<<< HEAD
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-=======
         backgroundColor: colors,
         borderColor: borderColors,
         borderWidth: 1,
@@ -202,21 +179,10 @@ const DashSide = () => {
         borderColor: borderColors[2],
         borderWidth: 1,
         barThickness: 15 // Adjust bar thickness here
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
       }
     ]
   }
 
-<<<<<<< HEAD
-  const location = useLocation()
-  const category = location.pathname.split('/')[1]
-
-  useEffect(() => {
-    if (category === 'ExpTracker') {
-      setShowChart(true)
-    } else {
-      setShowChart(false)
-=======
   // Custom tooltip callback to show descriptions
   const chartOptions = {
     scales: {
@@ -306,7 +272,6 @@ const DashSide = () => {
       setShowChart(false)
       setShowIncomeChart(false)
       setShowSummary(false)
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
     }
   }, [category])
 
@@ -318,26 +283,6 @@ const DashSide = () => {
       setRightSidebarMinimized(!rightSidebarMinimized)
     }
   }
-<<<<<<< HEAD
-
-  return (
-    <div>
-      <header>
-        <div className="logo-wrapper">
-          <img
-            src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png"
-            alt="Logo"
-            className="logo"
-          />
-          <h3>Dashboard</h3>
-        </div>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/login">Log In</Link>
-        </nav>
-      </header>
-=======
 
   // Add user-defined budget
   const addBudget = (e) => {
@@ -386,7 +331,6 @@ const DashSide = () => {
       {/* Dashboard layout */}
       <div className="dashboard"></div>
 
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
       <div className="dash-container">
         {/* Left sidebar */}
         <div
@@ -395,11 +339,7 @@ const DashSide = () => {
           }`}
         >
           <button className="toggle-btn" onClick={() => toggleSidebar('left')}>
-<<<<<<< HEAD
-            Toggle
-=======
             {leftSidebarMinimized ? '>' : '<'}
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
           </button>
           <h2>Categories</h2>
           <ul>
@@ -415,22 +355,6 @@ const DashSide = () => {
           </ul>
         </div>
 
-<<<<<<< HEAD
-        <div
-          className={`content ${leftSidebarMinimized ? 'minimized-left' : ''} ${
-            rightSidebarMinimized ? 'minimized-right' : ''
-          }`}
-        >
-          <h1>Welcome to My App</h1>
-          <p>This is the main content area.</p>
-          {showChart && (
-            <div className="chart-container">
-              <Bar
-                data={chartData}
-                style={{ width: '400px', height: '300px' }}
-              />
-            </div>
-=======
         {/* Main content area */}
         <div className="content">
           {showChart && (
@@ -535,7 +459,6 @@ const DashSide = () => {
                 ))}
               </div>
             </>
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
           )}
         </div>
 
@@ -546,11 +469,7 @@ const DashSide = () => {
           }`}
         >
           <button className="toggle-btn" onClick={() => toggleSidebar('right')}>
-<<<<<<< HEAD
-            Toggle
-=======
             {leftSidebarMinimized ? '<' : '>'}
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
           </button>
           <h2>Options</h2>
           <ul>
@@ -571,7 +490,3 @@ const DashSide = () => {
 }
 
 export default DashSide
-<<<<<<< HEAD
-=======
-// test
->>>>>>> 31210b887af838d9dcc5a736e408b579d9d20aaa
