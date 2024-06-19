@@ -8,12 +8,11 @@ import {
   BarElement,
   ArcElement,
   Tooltip,
-  Legend,
-} from "chart.js"
-import { Bar } from "react-chartjs-2"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+  Legend
+} from 'chart.js'
+import { Bar } from 'react-chartjs-2'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faUtensils,
   faFilm,
   faLightbulb,
   faMoneyCheckAlt,
@@ -54,18 +53,19 @@ const DashSide = ({ user }) => {
 
   // Monthly expenses data
   const MonthlyExpenses = [
-    { month: "January", amount: 1200 },
-    { month: "February", amount: 900 },
-    { month: "March", amount: 1100 },
-    { month: "April", amount: 950 },
-    { month: "May", amount: 1300 },
-    { month: "June", amount: 1250 },
-    { month: "July", amount: 1400 },
-    { month: "August", amount: 1150 },
-    { month: "September", amount: 1600 },
-    { month: "October", amount: 1500 },
-    { month: "November", amount: 1700 },
-    { month: "December", amount: 1900 },
+    { month: 'January', amount: 1200 },
+    { month: 'February', amount: 900 },
+    { month: 'March', amount: 1100 },
+    { month: 'April', amount: 950 },
+    { month: 'May', amount: 1300 },
+    { month: 'June', amount: 1250 },
+    { month: 'July', amount: 1400 },
+    { month: 'August', amount: 1150 },
+    { month: 'September', amount: 1600 },
+    { month: 'October', amount: 1500 },
+    { month: 'November', amount: 1700 },
+    { month: 'December', amount: 1900 }
+
   ]
 
   // Monthly income data
@@ -179,12 +179,13 @@ const DashSide = ({ user }) => {
         backgroundColor: colors[2], // Color for budget limit
         borderColor: borderColors[2],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-    ],
+        barThickness: 15 // Adjust bar thickness here
+      }
+    ]
   }
 
   // Custom tooltip callback to show descriptions
+
   const chartOptions = {
     scales: {
       x: {
@@ -211,17 +212,23 @@ const DashSide = ({ user }) => {
       tooltip: {
         callbacks: {
           label: function (context) {
-            const description = MonthlyIncome[context.dataIndex].description
-            const amount = context.dataset.data[context.dataIndex]
-            return `${description}: $${amount}`
+            const label = context.dataset.label
+            const dataIndex = context.dataIndex
+            const amount = context.dataset.data[dataIndex]
+            let description
+            if (label === "Monthly Income") {
+              description = MonthlyIncome[dataIndex].description
+              return `Income: ${description}: $${amount}`
+            } else {
+              description = MonthlyExpenses[dataIndex].description
+              return `Expense: ${description}: $${amount}`
+            }
           },
         },
         backgroundColor: "rgba(33, 33, 33, 0.8)",
       },
     },
   }
-
-  // Options for the summary chart (customize as needed)
   const summaryChartOptions = {
     scales: {
       x: {
@@ -246,6 +253,26 @@ const DashSide = ({ user }) => {
     },
     plugins: {
       tooltip: {
+
+        callbacks: {
+          label: function (context) {
+            const label = context.dataset.label
+            const dataIndex = context.dataIndex
+            const amount = context.dataset.data[dataIndex]
+            let description
+            if (label === "Monthly Income") {
+              description = MonthlyIncome[dataIndex].description
+              return `Income: ${description}: $${amount}`
+            } else if (label === "Monthly Expenses") {
+              description = MonthlyExpenses[dataIndex].description
+              return `Expense: ${description}: $${amount}`
+            } else if (label === "Budget Limit") {
+              description = BudgetLimits[dataIndex].month
+              return `Budget Limit: ${description}: $${amount}`
+            }
+            return ""
+          },
+        },
         backgroundColor: "rgba(33, 33, 33, 0.8)",
       },
     },
@@ -336,12 +363,10 @@ const DashSide = ({ user }) => {
   }
   // Icon mapping for budget categories
   const iconMap = {
-    Food: faUtensils,
     Entertainment: faFilm,
     Utilities: faLightbulb,
     Income: faMoneyCheckAlt,
   }
-
   return (
     <div>
       {/* Dashboard layout */}
@@ -354,8 +379,9 @@ const DashSide = ({ user }) => {
             leftSidebarMinimized ? "minimized" : ""
           }`}
         >
-          <button className="toggle-btn" onClick={() => toggleSidebar("left")}>
-            {leftSidebarMinimized ? ">" : "<"}
+          <button className="toggle-btn" onClick={() => toggleSidebar('left')}>
+            {leftSidebarMinimized ? '>' : '<'}
+
           </button>
           <h2>Categories</h2>
           <ul>
@@ -484,8 +510,9 @@ const DashSide = ({ user }) => {
             rightSidebarMinimized ? "minimized" : ""
           }`}
         >
-          <button className="toggle-btn" onClick={() => toggleSidebar("right")}>
-            {leftSidebarMinimized ? "<" : ">"}
+          <button className="toggle-btn" onClick={() => toggleSidebar('right')}>
+            {leftSidebarMinimized ? '<' : '>'}
+
           </button>
           <h2>Options</h2>
           <ul>
