@@ -220,14 +220,16 @@ const Expense = ({ user }) => {
         </form>
       )}
       <h3>Expense List</h3>
-      {expenses.map((expense) => (
-        <div key={expense._id}>
-          <h4>note:{expense.note}</h4>
-          <h4>amount:{expense.amount}</h4>
-          <button onClick={() => handleDelete(expense._id)}>Delete</button>
-          <button onClick={() => handleEdit(expense)}>Edit</button>
-        </div>
-      ))}
+      {expenses.length > 0 &&
+        expenses.map((expense) => (
+          <div key={expense._id}>
+            <h4>note:{expense.note}</h4>
+            <h4>amount:{expense.amount}</h4>
+            <h4>month:{expense.month}</h4>
+            <button onClick={() => handleDelete(expense._id)}>Delete</button>
+            <button onClick={() => handleEdit(expense)}>Edit</button>
+          </div>
+        ))}
     </div>
   )
 }
