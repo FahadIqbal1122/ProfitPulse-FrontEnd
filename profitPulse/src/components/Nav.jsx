@@ -7,7 +7,7 @@ const Nav = ({ user, handleLogOut }) => {
     userOptions = (
       <nav>
         <h3>
-          Welcome {user.email}!{" "}
+          Welcome {user.username}!{" "}
           <Link to="/profile" className="profile-link">
             (View Profile)
           </Link>
