@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
 const UserProf = ({ user }) => {
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
   const [oldPassword, setOldPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -19,7 +17,7 @@ const UserProf = ({ user }) => {
 
     try {
       const response = await axios.put(
-        `/api/update/${user.id}`,
+        `http://localhost:3001/auth/update/${user.id}`,
         {
           oldPassword,
           newPassword,
@@ -51,8 +49,8 @@ const UserProf = ({ user }) => {
         <div className="col-md-6">
           <h3>User Info</h3>
           <ul className="list-group">
-            <li className="list-group-item">Username: {username}</li>
-            <li className="list-group-item">Email: {email}</li>
+            <li className="list-group-item">Username: {user.username}</li>
+            <li className="list-group-item">Email: {user.email}</li>
           </ul>
         </div>
         <div className="col-md-6">

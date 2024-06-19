@@ -1,10 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { LogInUser } from "../../services/Auth"
-import { useUser } from "../Context/UserContext"
 
 const LogIn = ({ setUser }) => {
-  const user = useUser()
   let navigate = useNavigate()
   const [formValues, setFormValues] = useState({ email: "", password: "" })
 
