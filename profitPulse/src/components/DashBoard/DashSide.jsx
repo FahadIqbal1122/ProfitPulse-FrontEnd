@@ -10,14 +10,13 @@ import {
   Legend,
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
-  faUtensils,
   faFilm,
   faLightbulb,
   faMoneyCheckAlt,
 } from "@fortawesome/free-solid-svg-icons"
-
 // Register Chart.js components
 ChartJS.register(
   CategoryScale,
@@ -220,6 +219,53 @@ const DashSide = () => {
       },
     },
   }
+  const summaryChartOptions = {
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 16,
+            family: "'Roboto', sans-serif",
+            weight: "500",
+          },
+          color: "#333", // Dark color
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 16,
+            family: "'Roboto', sans-serif",
+          },
+          color: "#333", // Dark color
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.dataset.label
+            const dataIndex = context.dataIndex
+            const amount = context.dataset.data[dataIndex]
+            let description
+            if (label === "Monthly Income") {
+              description = MonthlyIncome[dataIndex].description
+              return `Income: ${description}: $${amount}`
+            } else if (label === "Monthly Expenses") {
+              description = MonthlyExpenses[dataIndex].description
+              return `Expense: ${description}: $${amount}`
+            } else if (label === "Budget Limit") {
+              description = BudgetLimits[dataIndex].month
+              return `Budget Limit: ${description}: $${amount}`
+            }
+            return ""
+          },
+        },
+        backgroundColor: "rgba(33, 33, 33, 0.8)",
+      },
+    },
+  }
 
   // Extract category from the URL using useLocation
   const location = useLocation()
@@ -291,12 +337,10 @@ const DashSide = () => {
   }
   // Icon mapping for budget categories
   const iconMap = {
-    Food: faUtensils,
     Entertainment: faFilm,
     Utilities: faLightbulb,
     Income: faMoneyCheckAlt,
   }
-
   return (
     <div>
       {/* Dashboard layout */}
