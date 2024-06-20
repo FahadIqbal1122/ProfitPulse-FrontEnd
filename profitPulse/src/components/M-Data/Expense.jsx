@@ -125,31 +125,6 @@ const Expense = ({ user }) => {
             />
           </div>
           <div>
-            <label htmlFor="month">month</label>
-            <select
-              onChange={handleChange}
-              name="month"
-              value={formValues.month}
-              required
-            >
-              <option value="" disabled>
-                Select a month
-              </option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
-          </div>
-          <div>
             <label htmlFor="budget">Budget</label>
             {budgets ? (
               <select name="budgetId" onChange={handleChange}>
@@ -191,31 +166,6 @@ const Expense = ({ user }) => {
               required
             />
           </div>
-          <div>
-            <label htmlFor="editMonth">month</label>
-            <select
-              onChange={handleEditChange}
-              name="month"
-              value={editFormValues.month}
-              required
-            >
-              <option value="" disabled>
-                Select a month
-              </option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
-          </div>
           <button>update</button>
         </form>
       )}
@@ -225,7 +175,6 @@ const Expense = ({ user }) => {
           <div key={expense._id}>
             <h4>note:{expense.note}</h4>
             <h4>amount:{expense.amount}</h4>
-            <h4>month:{expense.month}</h4>
             <button onClick={() => handleDelete(expense._id)}>Delete</button>
             <button onClick={() => handleEdit(expense)}>Edit</button>
           </div>
