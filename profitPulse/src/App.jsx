@@ -33,7 +33,6 @@ const App = () => {
       checkToken()
     }
   }, [])
-  // console.log(user)
   return (
     <div className="App">
       <Nav user={user} handleLogOut={handleLogOut} />
