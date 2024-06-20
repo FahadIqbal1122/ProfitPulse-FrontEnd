@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Income from "../M-Data/Income"
-import { Link, useLocation } from "react-router-dom"
+import { Link, json, useLocation } from "react-router-dom"
 import axios from "axios"
 
 import {
@@ -65,7 +65,7 @@ const DashSide = ({ user }) => {
       if (!user.id) return
       const response = await axios.get(`http://localhost:3001/ai/${user.id}`)
       setDetails(response.data)
-      console.log(response.data.budgets)
+      console.log(response.data)
     }
     fetchDetails()
   }, [user.id])
@@ -340,7 +340,6 @@ const DashSide = ({ user }) => {
     setNewAmount(0)
   }
 
-  console.log(`detaiLS: ${details}`)
   // Updated summary chart data with user budgets
   const updatedSummaryChartData = {
     labels: details.budgets.map((item) => item.name),

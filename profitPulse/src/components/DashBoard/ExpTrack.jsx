@@ -40,9 +40,9 @@ const ExpTrack = ({ user, details }) => {
       { category: "Transportation", amount: 100 },
       { category: "Entertainment", amount: 50 },
     ]
-    console.log(`exp track details: ${details.expenses}`)
-    const labels = expenseData.map((item) => item.category)
-    const data = expenseData.map((item) => item.amount)
+    console.log(`exp track details: ${JSON.stringify(details.expenses)}`)
+    const labels = details.budgets.map((item) => item.name)
+    const data = details.expenses.map((item) => item.amount)
     const backgroundColor = ["#f44336", "#2196f3", "#ffc107"]
 
     setChartData({ labels, data, backgroundColor })
