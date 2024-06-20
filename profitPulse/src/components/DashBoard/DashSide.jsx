@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Income from "../M-Data/Income"
-import { Link, useLocation } from "react-router-dom"
+import { Link, json, useLocation } from "react-router-dom"
 import axios from "axios"
 
 import {
@@ -16,10 +16,13 @@ import { Bar } from "react-chartjs-2"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faFilm,
+  faL,
   faLightbulb,
   faMoneyCheckAlt,
 } from "@fortawesome/free-solid-svg-icons"
 import ExpTrack from "./ExpTrack"
+import IncomeTrack from "./IncomeTrack"
+import MoneySavingTips from "./MoneySavingTips"
 
 // Register Chart.js components
 ChartJS.register(
@@ -48,6 +51,8 @@ const DashSide = ({ user }) => {
   const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false) // State to control the left sidebar minimization
   const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false) // State to control the right sidebar minimization
 
+  const [showAi, setShowAi] = useState(false)
+
   // State for user-defined budgets
   const [userBudgets, setUserBudgets] = useState([])
   const [newCategory, setNewCategory] = useState("")
@@ -65,7 +70,7 @@ const DashSide = ({ user }) => {
       if (!user.id) return
       const response = await axios.get(`http://localhost:3001/ai/${user.id}`)
       setDetails(response.data)
-      console.log(response.data.budgets)
+      console.log(response.data)
     }
     fetchDetails()
   }, [user.id])
@@ -304,18 +309,27 @@ const DashSide = ({ user }) => {
       setShowChart(true)
       setShowIncomeChart(false)
       setShowSummary(false)
+      setShowAi(false)
     } else if (category === "IncomeTrack") {
       setShowChart(false)
       setShowIncomeChart(true)
       setShowSummary(false)
+      setShowAi(false)
     } else if (category === "Summary") {
       setShowChart(false)
       setShowIncomeChart(false)
       setShowSummary(true)
+      setShowAi(false)
+    } else if (category === "PulseAi") {
+      setShowChart(false)
+      setShowIncomeChart(false)
+      setShowSummary(false)
+      setShowAi(true)
     } else {
       setShowChart(false)
       setShowIncomeChart(false)
       setShowSummary(false)
+      setShowAi(false)
     }
   }, [category])
 
@@ -340,7 +354,6 @@ const DashSide = ({ user }) => {
     setNewAmount(0)
   }
 
-  console.log(`detaiLS: ${details}`)
   // Updated summary chart data with user budgets
   const updatedSummaryChartData = {
     labels: details.budgets.map((item) => item.name),
@@ -393,13 +406,44 @@ const DashSide = ({ user }) => {
               <Link to="/IncomeTrack">Income Track</Link>
             </li>
             <li>
-              <Link to="/Summary">Summary</Link>
+              <Link to="/Summary">Budget</Link>
+            </li>
+            <li>
+              <Link to="/PulseAi">PulseAI</Link>
             </li>
           </ul>
         </div>
 
         {/* Main content area */}
         <div className="content">
+          {!showChart &&
+            !showIncomeChart &&
+            !showSummary &&
+            !showAi && ( // Wrap everything in the condition
+              <>
+                <div className="dashboard-card">
+                  <h2>Total Income</h2>
+                  <p>{user.totalIncome} BD</p>
+                </div>
+                <div className="dashboard-card">
+                  <h2>Total Expense</h2>
+                  <p>{user.totalExpense} BD</p>
+                </div>
+                <div className="chart-container">
+                  <ExpTrack user={user} details={details} />
+                </div>
+                <div className="chart-container">
+                  <IncomeTrack user={user} details={details} />
+                </div>
+                <div className="chart-container">
+                  <Bar
+                    data={updatedSummaryChartData}
+                    options={summaryChartOptions}
+                    style={{ width: "400px", height: "300px" }}
+                  />
+                </div>
+              </>
+            )}
           {showChart && (
             <>
               <h1>Welcome to My ExpTracker</h1>
@@ -419,10 +463,11 @@ const DashSide = ({ user }) => {
               </div>
 
               <h3>Pie</h3>
-              <ExpTrack user={user} details={details} />
+              <div className="chart-container">
+                <ExpTrack user={user} details={details} />
+              </div>
             </>
           )}
-
           {showIncomeChart && (
             <>
               <h1>Welcome to Income Tracker</h1>
@@ -440,9 +485,12 @@ const DashSide = ({ user }) => {
                   style={{ width: "400px", height: "300px" }}
                 />
               </div>
+              <h3>Pie</h3>
+              <div className="chart-container">
+                <IncomeTrack user={user} details={details} />
+              </div>
             </>
           )}
-
           {showSummary && (
             <>
               <h1>Financial Summary</h1>
@@ -478,6 +526,12 @@ const DashSide = ({ user }) => {
                   </div>
                 ))}
               </div>
+            </>
+          )}
+          {showAi && (
+            <>
+              <h1>Welcome to Pulse AI</h1>
+              <MoneySavingTips user={user} />
             </>
           )}
         </div>
