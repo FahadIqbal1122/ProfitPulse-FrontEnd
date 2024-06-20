@@ -1,19 +1,19 @@
-import { useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react"
-import axios from "axios"
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Expense = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    note: "",
-    amount: "",
+    note: '',
+    amount: ''
   })
   const [submittedExpense, setSubmittedExpense] = useState(null)
   const [expenses, setExpenses] = useState([])
   const [budgets, setBudgets] = useState([])
 
   const [editFormValues, setEditFormValues] = useState({
-    note: "",
-    amount: "",
+    note: '',
+    amount: ''
   })
 
   let navigate = useNavigate()
@@ -52,21 +52,21 @@ const Expense = ({ user }) => {
       note: formValues.note,
       amount: formValues.amount,
       userId: user.id,
-      budgetId: formValues.budgetId,
+      budgetId: formValues.budgetId
     }
 
-    const response = await axios.post("http://localhost:3001/expense/", data)
+    const response = await axios.post('http://localhost:3001/expense/', data)
 
     const newExpense = response.data
     setExpenses([...expenses, newExpense])
 
     setFormValues({
-      note: "",
-      amount: "",
+      note: '',
+      amount: ''
     })
     setSubmittedExpense({
       note: formValues.note,
-      amount: formValues.amount,
+      amount: formValues.amount
     })
     //navigate('/')
   }
@@ -89,8 +89,8 @@ const Expense = ({ user }) => {
       })
     )
     setEditFormValues({
-      name: "",
-      amount: "",
+      name: '',
+      amount: ''
     })
   }
   const handleDelete = async (expenseId) => {
@@ -123,6 +123,31 @@ const Expense = ({ user }) => {
               value={formValues.amount}
               required
             />
+          </div>
+          <div>
+            <label htmlFor="month">month</label>
+            <select
+              onChange={handleChange}
+              name="month"
+              value={formValues.month}
+              required
+            >
+              <option value="" disabled>
+                Select a month
+              </option>
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
           </div>
           <div>
             <label htmlFor="budget">Budget</label>
@@ -166,18 +191,45 @@ const Expense = ({ user }) => {
               required
             />
           </div>
+          <div>
+            <label htmlFor="editMonth">month</label>
+            <select
+              onChange={handleEditChange}
+              name="month"
+              value={editFormValues.month}
+              required
+            >
+              <option value="" disabled>
+                Select a month
+              </option>
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
+          </div>
           <button>update</button>
         </form>
       )}
       <h3>Expense List</h3>
-      {expenses.map((expense) => (
-        <div key={expense._id}>
-          <h4>note:{expense.note}</h4>
-          <h4>amount:{expense.amount}</h4>
-          <button onClick={() => handleDelete(expense._id)}>Delete</button>
-          <button onClick={() => handleEdit(expense)}>Edit</button>
-        </div>
-      ))}
+      {expenses.length > 0 &&
+        expenses.map((expense) => (
+          <div key={expense._id}>
+            <h4>note:{expense.note}</h4>
+            <h4>amount:{expense.amount}</h4>
+            <h4>month:{expense.month}</h4>
+            <button onClick={() => handleDelete(expense._id)}>Delete</button>
+            <button onClick={() => handleEdit(expense)}>Edit</button>
+          </div>
+        ))}
     </div>
   )
 }

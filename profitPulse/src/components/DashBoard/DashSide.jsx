@@ -1,6 +1,7 @@
+import React, { useState, useEffect } from 'react'
+import Income from '../M-Data/Income'
+import { Link, useLocation } from 'react-router-dom'
 import axios from "axios"
-import React, { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,8 +16,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faFilm,
   faLightbulb,
-  faMoneyCheckAlt,
-} from "@fortawesome/free-solid-svg-icons"
+  faMoneyCheckAlt
+} from '@fortawesome/free-solid-svg-icons'
 
 // Register Chart.js components
 ChartJS.register(
@@ -47,7 +48,7 @@ const DashSide = ({ user }) => {
 
   // State for user-defined budgets
   const [userBudgets, setUserBudgets] = useState([])
-  const [newCategory, setNewCategory] = useState("")
+  const [newCategory, setNewCategory] = useState('')
   const [newLimit, setNewLimit] = useState(0)
   const [newAmount, setNewAmount] = useState(0)
 
@@ -65,77 +66,75 @@ const DashSide = ({ user }) => {
     { month: 'October', amount: 1500 },
     { month: 'November', amount: 1700 },
     { month: 'December', amount: 1900 }
-
   ]
-
   // Monthly income data
   const MonthlyIncome = [
-    { month: "January", amount: 2000, description: "Salary" },
-    { month: "February", amount: 2400, description: "Performance Bonus" },
-    { month: "March", amount: 2000, description: "Salary Adjustment" },
-    { month: "April", amount: 2600, description: "Project Incentive" },
-    { month: "May", amount: 2750, description: "Base Compensation" },
-    { month: "June", amount: 1800, description: "Quarterly Bonus" },
-    { month: "July", amount: 2500, description: "Monthly Payroll" },
-    { month: "August", amount: 3000, description: "Employee Compensation" },
-    { month: "September", amount: 3250, description: "Paycheck" },
-    { month: "October", amount: 2450, description: "Wage" },
+    { month: 'January', amount: 2000, description: 'Salary' },
+    { month: 'February', amount: 2400, description: 'Performance Bonus' },
+    { month: 'March', amount: 2000, description: 'Salary Adjustment' },
+    { month: 'April', amount: 2600, description: 'Project Incentive' },
+    { month: 'May', amount: 2750, description: 'Base Compensation' },
+    { month: 'June', amount: 1800, description: 'Quarterly Bonus' },
+    { month: 'July', amount: 2500, description: 'Monthly Payroll' },
+    { month: 'August', amount: 3000, description: 'Employee Compensation' },
+    { month: 'September', amount: 3250, description: 'Paycheck' },
+    { month: 'October', amount: 2450, description: 'Wage' },
     {
-      month: "November",
+      month: 'November',
       amount: 3200,
-      description: "Year-End Performance Bonus",
+      description: 'Year-End Performance Bonus'
     },
-    { month: "December", amount: 3400, description: "Holiday Bonus" },
+    { month: 'December', amount: 3400, description: 'Holiday Bonus' }
   ]
 
   // Example budget limits
   const BudgetLimits = [
-    { month: "January", limit: 1500 },
-    { month: "February", limit: 1200 },
-    { month: "March", limit: 1400 },
-    { month: "April", limit: 1100 },
-    { month: "May", limit: 1600 },
-    { month: "June", limit: 1500 },
-    { month: "July", limit: 1700 },
-    { month: "August", limit: 1300 },
-    { month: "September", limit: 1800 },
-    { month: "October", limit: 1700 },
-    { month: "November", limit: 1900 },
-    { month: "December", limit: 2000 },
+    { month: 'January', limit: 1500 },
+    { month: 'February', limit: 1200 },
+    { month: 'March', limit: 1400 },
+    { month: 'April', limit: 1100 },
+    { month: 'May', limit: 1600 },
+    { month: 'June', limit: 1500 },
+    { month: 'July', limit: 1700 },
+    { month: 'August', limit: 1300 },
+    { month: 'September', limit: 1800 },
+    { month: 'October', limit: 1700 },
+    { month: 'November', limit: 1900 },
+    { month: 'December', limit: 2000 }
   ]
 
   // Define a color palette for the charts
   const colors = [
-    "rgba(255, 99, 132, 0.6)",
-    "rgba(54, 162, 235, 0.6)",
-    "rgba(255, 206, 86, 0.6)",
-    "rgba(75, 192, 192, 0.6)",
-    "rgba(153, 102, 255, 0.6)",
-    "rgba(255, 159, 64, 0.6)",
-    "rgba(255, 99, 132, 0.6)",
-    "rgba(54, 162, 235, 0.6)",
-    "rgba(255, 206, 86, 0.6)",
-    "rgba(75, 192, 192, 0.6)",
-    "rgba(153, 102, 255, 0.6)",
-    "rgba(255, 159, 64, 0.6)",
+    'rgba(255, 99, 132, 0.6)',
+    'rgba(54, 162, 235, 0.6)',
+    'rgba(255, 206, 86, 0.6)',
+    'rgba(75, 192, 192, 0.6)',
+    'rgba(153, 102, 255, 0.6)',
+    'rgba(255, 159, 64, 0.6)',
+    'rgba(255, 99, 132, 0.6)',
+    'rgba(54, 162, 235, 0.6)',
+    'rgba(255, 206, 86, 0.6)',
+    'rgba(75, 192, 192, 0.6)',
+    'rgba(153, 102, 255, 0.6)',
+    'rgba(255, 159, 64, 0.6)'
   ]
 
   // Define border colors for the charts
-  const borderColors = colors.map((color) => color.replace("0.6", "1"))
+  const borderColors = colors.map((color) => color.replace('0.6', '1'))
 
   // Chart data for expenses bar chart
   const chartData = {
     labels: MonthlyExpenses.map((item) => item.month),
     datasets: [
       {
-        label: "Monthly Expenses",
+        label: 'Monthly Expenses',
         data: MonthlyExpenses.map((item) => item.amount),
         backgroundColor: colors,
         borderColor: borderColors,
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-    ],
+        barThickness: 15 // Adjust bar thickness here
+      }
+    ]
   }
 
   // Chart data for income bar chart with custom tooltips
@@ -143,14 +142,14 @@ const DashSide = ({ user }) => {
     labels: MonthlyIncome.map((item) => item.month),
     datasets: [
       {
-        label: "Monthly Income",
+        label: 'Monthly Income',
         data: MonthlyIncome.map((item) => item.amount),
         backgroundColor: colors,
         borderColor: borderColors,
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-    ],
+        barThickness: 15 // Adjust bar thickness here
+      }
+    ]
   }
 
   // Chart data for summary bar chart (expenses, income, and budget limit)
@@ -158,23 +157,23 @@ const DashSide = ({ user }) => {
     labels: MonthlyExpenses.map((item) => item.month),
     datasets: [
       {
-        label: "Monthly Expenses",
+        label: 'Monthly Expenses',
         data: MonthlyExpenses.map((item) => item.amount),
         backgroundColor: colors[0], // Color for expenses
         borderColor: borderColors[0],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
+        barThickness: 15 // Adjust bar thickness here
       },
       {
-        label: "Monthly Income",
+        label: 'Monthly Income',
         data: MonthlyIncome.map((item) => item.amount),
         backgroundColor: colors[1], // Color for income
         borderColor: borderColors[1],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
+        barThickness: 15 // Adjust bar thickness here
       },
       {
-        label: "Budget Limit",
+        label: 'Budget Limit',
         data: BudgetLimits.map((item) => item.limit),
         backgroundColor: colors[2], // Color for budget limit
         borderColor: borderColors[2],
@@ -193,20 +192,20 @@ const DashSide = ({ user }) => {
           font: {
             size: 16,
             family: "'Roboto', sans-serif",
-            weight: "500",
+            weight: '500'
           },
-          color: "#333", // Dark color
-        },
+          color: '#333' // Dark color
+        }
       },
       y: {
         ticks: {
           font: {
             size: 16,
-            family: "'Roboto', sans-serif",
+            family: "'Roboto', sans-serif"
           },
-          color: "#333", // Dark color
-        },
-      },
+          color: '#333' // Dark color
+        }
+      }
     },
     plugins: {
       tooltip: {
@@ -216,18 +215,18 @@ const DashSide = ({ user }) => {
             const dataIndex = context.dataIndex
             const amount = context.dataset.data[dataIndex]
             let description
-            if (label === "Monthly Income") {
+            if (label === 'Monthly Income') {
               description = MonthlyIncome[dataIndex].description
               return `Income: ${description}: $${amount}`
             } else {
               description = MonthlyExpenses[dataIndex].description
               return `Expense: ${description}: $${amount}`
             }
-          },
+          }
         },
-        backgroundColor: "rgba(33, 33, 33, 0.8)",
-      },
-    },
+        backgroundColor: 'rgba(33, 33, 33, 0.8)'
+      }
+    }
   }
   const summaryChartOptions = {
     scales: {
@@ -236,63 +235,62 @@ const DashSide = ({ user }) => {
           font: {
             size: 16,
             family: "'Roboto', sans-serif",
-            weight: "500",
+            weight: '500'
           },
-          color: "#333", // Dark color
-        },
+          color: '#333' // Dark color
+        }
       },
       y: {
         ticks: {
           font: {
             size: 16,
-            family: "'Roboto', sans-serif",
+            family: "'Roboto', sans-serif"
           },
-          color: "#333", // Dark color
-        },
-      },
+          color: '#333' // Dark color
+        }
+      }
     },
     plugins: {
       tooltip: {
-
         callbacks: {
           label: function (context) {
             const label = context.dataset.label
             const dataIndex = context.dataIndex
             const amount = context.dataset.data[dataIndex]
             let description
-            if (label === "Monthly Income") {
+            if (label === 'Monthly Income') {
               description = MonthlyIncome[dataIndex].description
               return `Income: ${description}: $${amount}`
-            } else if (label === "Monthly Expenses") {
+            } else if (label === 'Monthly Expenses') {
               description = MonthlyExpenses[dataIndex].description
               return `Expense: ${description}: $${amount}`
-            } else if (label === "Budget Limit") {
+            } else if (label === 'Budget Limit') {
               description = BudgetLimits[dataIndex].month
               return `Budget Limit: ${description}: $${amount}`
             }
-            return ""
-          },
+            return ''
+          }
         },
-        backgroundColor: "rgba(33, 33, 33, 0.8)",
-      },
-    },
+        backgroundColor: 'rgba(33, 33, 33, 0.8)'
+      }
+    }
   }
 
   // Extract category from the URL using useLocation
   const location = useLocation()
-  const category = location.pathname.split("/")[1] // Assumes the URL structure is "/category"
+  const category = location.pathname.split('/')[1] // Assumes the URL structure is "/category"
 
   // Effect to toggle chart visibility based on URL category
   useEffect(() => {
-    if (category === "ExpTracker") {
+    if (category === 'ExpTracker') {
       setShowChart(true)
       setShowIncomeChart(false)
       setShowSummary(false)
-    } else if (category === "IncomeTrack") {
+    } else if (category === 'IncomeTrack') {
       setShowChart(false)
       setShowIncomeChart(true)
       setShowSummary(false)
-    } else if (category === "Summary") {
+    } else if (category === 'Summary') {
       setShowChart(false)
       setShowIncomeChart(false)
       setShowSummary(true)
@@ -305,9 +303,9 @@ const DashSide = ({ user }) => {
 
   // Toggle sidebar minimization
   const toggleSidebar = (side) => {
-    if (side === "left") {
+    if (side === 'left') {
       setLeftSidebarMinimized(!leftSidebarMinimized)
-    } else if (side === "right") {
+    } else if (side === 'right') {
       setRightSidebarMinimized(!rightSidebarMinimized)
     }
   }
@@ -317,9 +315,9 @@ const DashSide = ({ user }) => {
     e.preventDefault()
     setUserBudgets([
       ...userBudgets,
-      { category: newCategory, limit: newLimit, amount: newAmount },
+      { category: newCategory, limit: newLimit, amount: newAmount }
     ])
-    setNewCategory("")
+    setNewCategory('')
     setNewLimit(0)
     setNewAmount(0)
   }
@@ -349,7 +347,7 @@ const DashSide = ({ user }) => {
         backgroundColor: colors[2], // Color for budget limit
         borderColor: borderColors[2],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
+        barThickness: 15 // Adjust bar thickness here
       },
       {
         label: "Amount Spent",
@@ -357,15 +355,15 @@ const DashSide = ({ user }) => {
         backgroundColor: colors[0], // Color for amount spent
         borderColor: borderColors[0],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-    ],
+        barThickness: 15 // Adjust bar thickness here
+      }
+    ]
   }
   // Icon mapping for budget categories
   const iconMap = {
     Entertainment: faFilm,
     Utilities: faLightbulb,
-    Income: faMoneyCheckAlt,
+    Income: faMoneyCheckAlt
   }
   return (
     <div>
@@ -376,12 +374,11 @@ const DashSide = ({ user }) => {
         {/* Left sidebar */}
         <div
           className={`sidebar left-sidebar ${
-            leftSidebarMinimized ? "minimized" : ""
+            leftSidebarMinimized ? 'minimized' : ''
           }`}
         >
           <button className="toggle-btn" onClick={() => toggleSidebar('left')}>
             {leftSidebarMinimized ? '>' : '<'}
-
           </button>
           <h2>Categories</h2>
           <ul>
@@ -413,7 +410,7 @@ const DashSide = ({ user }) => {
                 <Bar
                   data={chartData}
                   options={chartOptions}
-                  style={{ width: "400px", height: "300px" }}
+                  style={{ width: '400px', height: '300px' }}
                 />
               </div>
             </>
@@ -433,7 +430,7 @@ const DashSide = ({ user }) => {
                 <Bar
                   data={incomeChartData}
                   options={chartOptions}
-                  style={{ width: "400px", height: "300px" }}
+                  style={{ width: '400px', height: '300px' }}
                 />
               </div>
             </>
@@ -479,7 +476,7 @@ const DashSide = ({ user }) => {
                 <Bar
                   data={updatedSummaryChartData}
                   options={summaryChartOptions}
-                  style={{ width: "400px", height: "300px" }}
+                  style={{ width: '400px', height: '300px' }}
                 />
               </div>
 
@@ -507,12 +504,11 @@ const DashSide = ({ user }) => {
         {/* Right sidebar */}
         <div
           className={`sidebar right-sidebar ${
-            rightSidebarMinimized ? "minimized" : ""
+            rightSidebarMinimized ? 'minimized' : ''
           }`}
         >
           <button className="toggle-btn" onClick={() => toggleSidebar('right')}>
             {leftSidebarMinimized ? '<' : '>'}
-
           </button>
           <h2>Options</h2>
           <ul>

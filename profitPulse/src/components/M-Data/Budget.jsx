@@ -1,18 +1,18 @@
-import { useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const Budget = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    name: "",
-    limit: "",
+    name: '',
+    limit: ''
   })
   const [submittedBudget, setSubmittedBudget] = useState(null)
   const [budgets, setBudgets] = useState([])
 
   const [editFormValues, setEditFormValues] = useState({
-    name: "",
-    limit: "",
+    name: '',
+    limit: ''
   })
 
   let navigate = useNavigate()
@@ -37,10 +37,10 @@ const Budget = ({ user }) => {
 
     const data = {
       ...formValues,
-      userId: user.id,
+      userId: user.id
     }
 
-    const response = await axios.post("http://localhost:3001/budget/", data)
+    const response = await axios.post('http://localhost:3001/budget/', data)
 
     console.log(data)
 
@@ -48,12 +48,12 @@ const Budget = ({ user }) => {
     setBudgets([...budgets, newBudget])
 
     setFormValues({
-      name: "",
-      limit: "",
+      name: '',
+      limit: ''
     })
     setSubmittedBudget({
       name: formValues.name,
-      limit: formValues.limit,
+      limit: formValues.limit
     })
   }
   const handleUpdate = async (e) => {
@@ -75,8 +75,8 @@ const Budget = ({ user }) => {
       })
     )
     setEditFormValues({
-      name: "",
-      limit: "",
+      name: '',
+      limit: ''
     })
   }
   const handleDelete = async (budgetId) => {
@@ -111,6 +111,31 @@ const Budget = ({ user }) => {
               required
             />
           </div>
+          <div>
+            <label htmlFor="month">month</label>
+            <select
+              onChange={handleChange}
+              name="month"
+              value={formValues.month}
+              required
+            >
+              <option value="" disabled>
+                Select a month
+              </option>
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
+          </div>
           <button disabled={!formValues.name || !formValues.limit}>
             Add Budget
           </button>
@@ -129,7 +154,7 @@ const Budget = ({ user }) => {
             />
           </div>
           <div>
-            <label htmlFor="editLimit">amount</label>
+            <label htmlFor="editLimit">limit</label>
             <input
               onChange={handleEditChange}
               name="limit"
@@ -137,6 +162,31 @@ const Budget = ({ user }) => {
               type="number"
               required
             />
+          </div>
+          <div>
+            <label htmlFor="editMonth">month</label>
+            <select
+              onChange={handleEditChange}
+              name="month"
+              value={editFormValues.month}
+              required
+            >
+              <option value="" disabled>
+                Select a month
+              </option>
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
           </div>
           <button>Update </button>
         </form>
@@ -147,6 +197,7 @@ const Budget = ({ user }) => {
           <div key={budget._id}>
             <h4>name:{budget.name}</h4>
             <h4>limit:{budget.limit}</h4>
+            <h4>month:{budget.month}</h4>
             <button onClick={() => handleDelete(budget._id)}>Delete</button>
             <button onClick={() => handleEdit(budget)}>Edit</button>
           </div>
