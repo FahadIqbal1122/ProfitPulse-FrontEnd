@@ -400,6 +400,33 @@ const DashSide = ({ user }) => {
 
         {/* Main content area */}
         <div className="content">
+          {!showChart &&
+            !showIncomeChart &&
+            !showSummary && ( // Wrap everything in the condition
+              <>
+                <div className="dashboard-card">
+                  <h2>Total Income</h2>
+                  <p>{user.totalIncome.toLocaleString()}</p>
+                </div>
+                <div className="dashboard-card">
+                  <h2>Total Expense</h2>
+                  <p>{user.totalExpense.toLocaleString()}</p>
+                </div>
+                <div className="chart-container">
+                  <ExpTrack user={user} details={details} />
+                </div>
+                <div className="chart-container">
+                  <IncomeTrack user={user} details={details} />
+                </div>
+                <div className="chart-container">
+                  <Bar
+                    data={updatedSummaryChartData}
+                    options={summaryChartOptions}
+                    style={{ width: "400px", height: "300px" }}
+                  />
+                </div>
+              </>
+            )}
           {showChart && (
             <>
               <h1>Welcome to My ExpTracker</h1>
@@ -419,10 +446,11 @@ const DashSide = ({ user }) => {
               </div>
 
               <h3>Pie</h3>
-              <ExpTrack user={user} details={details} />
+              <div className="chart-container">
+                <ExpTrack user={user} details={details} />
+              </div>
             </>
           )}
-
           {showIncomeChart && (
             <>
               <h1>Welcome to Income Tracker</h1>
@@ -441,10 +469,11 @@ const DashSide = ({ user }) => {
                 />
               </div>
               <h3>Pie</h3>
-              <IncomeTrack user={user} details={details} />
+              <div className="chart-container">
+                <IncomeTrack user={user} details={details} />
+              </div>
             </>
           )}
-
           {showSummary && (
             <>
               <h1>Financial Summary</h1>
