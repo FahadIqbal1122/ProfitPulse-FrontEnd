@@ -18,7 +18,7 @@ ChartJS.register(
 )
 import { Pie } from "react-chartjs-2"
 
-const ExpTrack = ({ user, details }) => {
+const ExpTrack = ({ details }) => {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -35,12 +35,7 @@ const ExpTrack = ({ user, details }) => {
   })
 
   useEffect(() => {
-    const expenseData = [
-      { category: "Food", amount: 200 },
-      { category: "Transportation", amount: 100 },
-      { category: "Entertainment", amount: 50 },
-    ]
-    console.log(`exp track details: ${JSON.stringify(details.expenses)}`)
+    console.log(`exp track details: ${JSON.stringify(details)}`)
     const labels = details.budgets.map((item) => item.name)
     const data = details.expenses.map((item) => item.amount)
     const backgroundColor = ["#f44336", "#2196f3", "#ffc107"]

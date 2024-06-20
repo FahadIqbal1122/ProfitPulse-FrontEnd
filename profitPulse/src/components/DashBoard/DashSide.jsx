@@ -20,6 +20,7 @@ import {
   faMoneyCheckAlt,
 } from "@fortawesome/free-solid-svg-icons"
 import ExpTrack from "./ExpTrack"
+import IncomeTrack from "./IncomeTrack"
 
 // Register Chart.js components
 ChartJS.register(
@@ -439,6 +440,8 @@ const DashSide = ({ user }) => {
                   style={{ width: "400px", height: "300px" }}
                 />
               </div>
+              <h3>Pie</h3>
+              <IncomeTrack user={user} details={details} />
             </>
           )}
 
