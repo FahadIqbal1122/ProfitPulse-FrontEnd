@@ -68,7 +68,9 @@ const DashSide = ({ user }) => {
   useEffect(() => {
     const fetchDetails = async () => {
       if (!user.id) return
-      const response = await axios.get(`http://localhost:3001/ai/${user.id}`)
+      const response = await axios.get(
+        `https://profitpulse-backend.onrender.com/ai/${user.id}`
+      )
       setDetails(response.data)
       console.log(response.data)
     }

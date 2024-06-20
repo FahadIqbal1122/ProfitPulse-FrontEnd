@@ -1,25 +1,25 @@
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 const Budget = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    name: '',
-    limit: ''
+    name: "",
+    limit: "",
   })
   const [submittedBudget, setSubmittedBudget] = useState(null)
   const [budgets, setBudgets] = useState([])
 
   const [editFormValues, setEditFormValues] = useState({
-    name: '',
-    limit: ''
+    name: "",
+    limit: "",
   })
 
   let navigate = useNavigate()
   useEffect(() => {
     const fetchBudgets = async () => {
       const response = await axios.get(
-        `http://localhost:3001/budget/${user.id}`
+        `https://profitpulse-backend.onrender.com/budget/${user.id}`
       )
       setBudgets(response.data)
     }
@@ -37,10 +37,13 @@ const Budget = ({ user }) => {
 
     const data = {
       ...formValues,
-      userId: user.id
+      userId: user.id,
     }
 
-    const response = await axios.post('http://localhost:3001/budget/', data)
+    const response = await axios.post(
+      "https://profitpulse-backend.onrender.com/budget/",
+      data
+    )
 
     console.log(data)
 
@@ -48,19 +51,19 @@ const Budget = ({ user }) => {
     setBudgets([...budgets, newBudget])
 
     setFormValues({
-      name: '',
-      limit: ''
+      name: "",
+      limit: "",
     })
     setSubmittedBudget({
       name: formValues.name,
-      limit: formValues.limit
+      limit: formValues.limit,
     })
   }
   const handleUpdate = async (e) => {
     e.preventDefault()
 
     const response = await axios.put(
-      `http://localhost:3001/budget/${editFormValues._id}`,
+      `https://profitpulse-backend.onrender.com/budget/${editFormValues._id}`,
       editFormValues
     )
 
@@ -75,12 +78,14 @@ const Budget = ({ user }) => {
       })
     )
     setEditFormValues({
-      name: '',
-      limit: ''
+      name: "",
+      limit: "",
     })
   }
   const handleDelete = async (budgetId) => {
-    await axios.delete(`http://localhost:3001/budget/${budgetId}`)
+    await axios.delete(
+      `https://profitpulse-backend.onrender.com/budget/${budgetId}`
+    )
     setBudgets(budgets.filter((budget) => budget._id !== budgetId))
   }
   const handleEdit = (budget) => {

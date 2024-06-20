@@ -1,19 +1,19 @@
-import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import axios from "axios"
 
 const Expense = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    note: '',
-    amount: ''
+    note: "",
+    amount: "",
   })
   const [submittedExpense, setSubmittedExpense] = useState(null)
   const [expenses, setExpenses] = useState([])
   const [budgets, setBudgets] = useState([])
 
   const [editFormValues, setEditFormValues] = useState({
-    note: '',
-    amount: ''
+    note: "",
+    amount: "",
   })
 
   let navigate = useNavigate()
@@ -21,14 +21,14 @@ const Expense = ({ user }) => {
     const fetchExpenses = async () => {
       if (!user.id) return
       const response = await axios.get(
-        `http://localhost:3001/expense/${user.id}`
+        `https://profitpulse-backend.onrender.com/expense/${user.id}`
       )
       setExpenses(response.data)
     }
     const fetchBudgets = async () => {
       if (!user.id) return
       const response = await axios.get(
-        `http://localhost:3001/budget/${user.id}`
+        `https://profitpulse-backend.onrender.com/budget/${user.id}`
       )
       setBudgets(response.data)
     }
@@ -52,21 +52,24 @@ const Expense = ({ user }) => {
       note: formValues.note,
       amount: formValues.amount,
       userId: user.id,
-      budgetId: formValues.budgetId
+      budgetId: formValues.budgetId,
     }
 
-    const response = await axios.post('http://localhost:3001/expense/', data)
+    const response = await axios.post(
+      "https://profitpulse-backend.onrender.com/expense/",
+      data
+    )
 
     const newExpense = response.data
     setExpenses([...expenses, newExpense])
 
     setFormValues({
-      note: '',
-      amount: ''
+      note: "",
+      amount: "",
     })
     setSubmittedExpense({
       note: formValues.note,
-      amount: formValues.amount
+      amount: formValues.amount,
     })
     //navigate('/')
   }
@@ -74,7 +77,7 @@ const Expense = ({ user }) => {
     e.preventDefault()
 
     const response = await axios.put(
-      `http://localhost:3001/expense/${editFormValues._id}`,
+      `https://profitpulse-backend.onrender.com/expense/${editFormValues._id}`,
       editFormValues
     )
 
@@ -89,12 +92,14 @@ const Expense = ({ user }) => {
       })
     )
     setEditFormValues({
-      name: '',
-      amount: ''
+      name: "",
+      amount: "",
     })
   }
   const handleDelete = async (expenseId) => {
-    await axios.delete(`http://localhost:3001/expense/${expenseId}`)
+    await axios.delete(
+      `https://profitpulse-backend.onrender.com/expense/${expenseId}`
+    )
     setExpenses(expenses.filter((expense) => expense._id !== expenseId))
   }
   const handleEdit = (expense) => {
