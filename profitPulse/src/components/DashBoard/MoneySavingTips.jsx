@@ -13,7 +13,7 @@ const MoneySavingTips = ({ user }) => {
 
       try {
         const response = await axios.get(
-          `http://localhost:3001/ai/${user.id}/money-saving-tips`
+          `https://profitpulse-backend.onrender.com/${user.id}/money-saving-tips`
         )
         setTips(response.data.cohere.generated_text)
       } catch (error) {

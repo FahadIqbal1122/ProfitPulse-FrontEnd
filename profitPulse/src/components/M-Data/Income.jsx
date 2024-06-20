@@ -1,20 +1,20 @@
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 const Income = ({ user }) => {
   const [formValues, setFormValues] = useState({
-    name: '',
-    amount: '',
-    month: ''
+    name: "",
+    amount: "",
+    month: "",
   })
   const [submittedIncome, setSubmittedIncome] = useState(null)
   const [incomes, setIncomes] = useState([])
 
   const [editFormValues, setEditFormValues] = useState({
-    name: '',
-    amount: '',
-    month: ''
+    name: "",
+    amount: "",
+    month: "",
   })
 
   let navigate = useNavigate()
@@ -22,7 +22,7 @@ const Income = ({ user }) => {
     const fetchIncomes = async () => {
       console.log(`user.id ${user.id}`)
       const response = await axios.get(
-        `http://localhost:3001/income/${user.id}`
+        `https://profitpulse-backend.onrender.com/income/${user.id}`
       )
       setIncomes(response.data)
     }
@@ -39,30 +39,30 @@ const Income = ({ user }) => {
 
     const data = {
       ...formValues,
-      userId: user.id
+      userId: user.id,
     }
 
-    const response = await axios.post('http://localhost:3001/income/', data)
+    const response = await axios.post("http://localhost:3001/income/", data)
     console.log(data)
 
     const newIncome = response.data
     setIncomes([...incomes, newIncome])
 
     setFormValues({
-      name: '',
-      amount: '',
-      month: ''
+      name: "",
+      amount: "",
+      month: "",
     })
     setSubmittedIncome({
       name: formValues.name,
-      amount: formValues.amount
+      amount: formValues.amount,
     })
   }
   const handleUpdate = async (e) => {
     e.preventDefault()
     console.log(editFormValues)
     const response = await axios.put(
-      `http://localhost:3001/income/${editFormValues._id}`,
+      `https://profitpulse-backend.onrender.com/income/${editFormValues._id}`,
       editFormValues
     )
 
@@ -77,13 +77,15 @@ const Income = ({ user }) => {
       })
     )
     setEditFormValues({
-      name: '',
-      amount: '',
-      month: ''
+      name: "",
+      amount: "",
+      month: "",
     })
   }
   const handleDelete = async (incomeId) => {
-    await axios.delete(`http://localhost:3001/income/${incomeId}`)
+    await axios.delete(
+      `https://profitpulse-backend.onrender.com/income/${incomeId}`
+    )
     setIncomes(incomes.filter((income) => income._id !== incomeId))
   }
   const handleEdit = async (income, incomeId) => {

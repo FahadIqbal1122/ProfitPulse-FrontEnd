@@ -1,46 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import { Link } from "react-router-dom"
 const UserProf = ({ user }) => {
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [oldPassword, setOldPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [updateError, setUpdateError] = useState('')
-
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [oldPassword, setOldPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [updateError, setUpdateError] = useState("")
 
   const handlePasswordUpdate = async (e) => {
     e.preventDefault()
 
     if (newPassword !== confirmPassword) {
-      setUpdateError('New passwords do not match')
+      setUpdateError("New passwords do not match")
       return
     }
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/auth/update/${user.id}`,
+        `https://profitpulse-backend.onrender.com/auth/update/${user.id}`,
         {
           oldPassword,
-          newPassword
+          newPassword,
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       )
 
-      if (response.data.status === 'Password Updated!') {
-        setOldPassword('')
-        setNewPassword('')
-        setConfirmPassword('')
-        setUpdateError('')
+      if (response.data.status === "Password Updated!") {
+        setOldPassword("")
+        setNewPassword("")
+        setConfirmPassword("")
+        setUpdateError("")
       } else {
         setUpdateError(response.data.msg)
       }
     } catch (error) {
-      console.error('Error updating password:', error)
-      setUpdateError('An error occurred. Please try again.')
+      console.error("Error updating password:", error)
+      setUpdateError("An error occurred. Please try again.")
     }
   }
 
@@ -101,7 +100,7 @@ const UserProf = ({ user }) => {
               Update Password
             </button>
           </form>
-          {updateError && <p className="text-danger">{updateError}</p>}{' '}
+          {updateError && <p className="text-danger">{updateError}</p>}{" "}
         </div>
       </div>
     </div>
