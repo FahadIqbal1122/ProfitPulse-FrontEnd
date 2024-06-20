@@ -16,11 +16,13 @@ import { Bar } from "react-chartjs-2"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faFilm,
+  faL,
   faLightbulb,
   faMoneyCheckAlt,
 } from "@fortawesome/free-solid-svg-icons"
 import ExpTrack from "./ExpTrack"
 import IncomeTrack from "./IncomeTrack"
+import MoneySavingTips from "./MoneySavingTips"
 
 // Register Chart.js components
 ChartJS.register(
@@ -48,6 +50,8 @@ const DashSide = ({ user }) => {
   const [showSummary, setShowSummary] = useState(false) // State to control the visibility of the summary section
   const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false) // State to control the left sidebar minimization
   const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false) // State to control the right sidebar minimization
+
+  const [showAi, setShowAi] = useState(false)
 
   // State for user-defined budgets
   const [userBudgets, setUserBudgets] = useState([])
@@ -305,18 +309,27 @@ const DashSide = ({ user }) => {
       setShowChart(true)
       setShowIncomeChart(false)
       setShowSummary(false)
+      setShowAi(false)
     } else if (category === "IncomeTrack") {
       setShowChart(false)
       setShowIncomeChart(true)
       setShowSummary(false)
+      setShowAi(false)
     } else if (category === "Summary") {
       setShowChart(false)
       setShowIncomeChart(false)
       setShowSummary(true)
+      setShowAi(false)
+    } else if (category === "PulseAi") {
+      setShowChart(false)
+      setShowIncomeChart(false)
+      setShowSummary(false)
+      setShowAi(true)
     } else {
       setShowChart(false)
       setShowIncomeChart(false)
       setShowSummary(false)
+      setShowAi(false)
     }
   }, [category])
 
@@ -393,7 +406,10 @@ const DashSide = ({ user }) => {
               <Link to="/IncomeTrack">Income Track</Link>
             </li>
             <li>
-              <Link to="/Summary">Summary</Link>
+              <Link to="/Summary">Budget</Link>
+            </li>
+            <li>
+              <Link to="/PulseAi">PulseAI</Link>
             </li>
           </ul>
         </div>
@@ -402,15 +418,16 @@ const DashSide = ({ user }) => {
         <div className="content">
           {!showChart &&
             !showIncomeChart &&
-            !showSummary && ( // Wrap everything in the condition
+            !showSummary &&
+            !showAi && ( // Wrap everything in the condition
               <>
                 <div className="dashboard-card">
                   <h2>Total Income</h2>
-                  <p>{user.totalIncome.toLocaleString()}</p>
+                  <p>{user.totalIncome} BD</p>
                 </div>
                 <div className="dashboard-card">
                   <h2>Total Expense</h2>
-                  <p>{user.totalExpense.toLocaleString()}</p>
+                  <p>{user.totalExpense} BD</p>
                 </div>
                 <div className="chart-container">
                   <ExpTrack user={user} details={details} />
@@ -509,6 +526,12 @@ const DashSide = ({ user }) => {
                   </div>
                 ))}
               </div>
+            </>
+          )}
+          {showAi && (
+            <>
+              <h1>Welcome to Pulse AI</h1>
+              <MoneySavingTips user={user} />
             </>
           )}
         </div>
