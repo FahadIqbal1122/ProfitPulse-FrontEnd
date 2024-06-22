@@ -51,6 +51,9 @@ nav a:hover {
 
 .main-content {
   margin-top: 80px;
+  padding-left: 270px;
+  padding-right: 270px;
+  transition: padding 0.3s;
 }
 
 .signin {
@@ -114,12 +117,9 @@ button:hover:not(:disabled) {
 }
 
 .content {
-  flex: 1;
-  margin: 80px 250px 0 250px;
   padding: 40px;
   background-color: #ffffff;
   overflow-y: auto;
-  transition: margin 0.3s;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
