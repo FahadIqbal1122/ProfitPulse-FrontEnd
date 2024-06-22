@@ -61,4 +61,5 @@ Below is a our ER diagram for the back-end and component diagram for the front-e
 
 ## [Trello](https://trello.com/b/nctFZ5iJ/profit-pulse)
 
-### **_Credits_** (edited)
+### **_Credits_**
+## [Charts.js](https://www.chartjs.org/docs/latest/charts/line.html)
