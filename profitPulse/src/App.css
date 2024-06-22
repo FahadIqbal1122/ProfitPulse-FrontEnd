@@ -4,7 +4,8 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
+  overflow: hidden;
 }
 
 header {
@@ -12,13 +13,14 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #5d5c61;
+  background-color: #3b3a42;
   color: #f0f0f0;
   position: fixed;
-  width: 97%;
+  width: 100%;
   top: 0;
   z-index: 1000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 header .logo-wrapper {
@@ -34,7 +36,10 @@ header .logo {
 
 nav {
   display: flex;
+  width: auto;
   gap: 20px;
+  padding-left: 20px;
+  padding-right: 30px;
 }
 
 nav a {
@@ -50,7 +55,10 @@ nav a:hover {
 }
 
 .main-content {
-  margin-top: 80px;
+  padding-top: 180px;
+  padding-left: 270px;
+  padding-right: 270px;
+  transition: padding 0.3s;
 }
 
 .signin {
@@ -114,14 +122,13 @@ button:hover:not(:disabled) {
 }
 
 .content {
-  flex: 1;
-  margin: 80px 250px 0 250px;
   padding: 40px;
+  padding-bottom: 90px;
   background-color: #ffffff;
   overflow-y: auto;
-  transition: margin 0.3s;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  margin-top: -39px;
 }
 
 .profile-link {
@@ -146,23 +153,18 @@ button:hover:not(:disabled) {
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-  }
-
   nav {
     flex-direction: column;
     gap: 10px;
   }
-
   .main-content {
-    margin-top: 100px; /* Adjusted for mobile view */
+    margin-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .content {
-    margin: 80px 20px 0 20px; /* Reduced margins for mobile view */
+    margin: 80px 20px 0 20px;
   }
 }
 .container {
@@ -285,13 +287,16 @@ form {
 }
 
 .dash-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
   height: 100vh;
   overflow: hidden;
   padding-top: 80px;
+  gap: 10px;
 }
 
 .sidebar {
+  margin-top: 20px;
   width: 250px;
   background-color: #3b3a42;
   color: #f0f0f0;
@@ -394,6 +399,16 @@ form {
   transform: scale(1.05);
 }
 
+.content {
+  grid-column: 2;
+  padding: 40px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: margin 0.3s;
+  width: 100%;
+}
+
 .content.minimized-left {
   margin-left: 50px;
 }
@@ -407,8 +422,18 @@ form {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  width: 100%;
+  height: 70%;
+  padding-bottom: 100px;
 }
-
+.chart {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.chart h2 {
+  flex: 1;
+  line-height: 2em;
+}
 .Forms {
   display: flex;
   flex-direction: column;
@@ -492,4 +517,136 @@ form {
 .submitted-info p {
   margin: 5px 0;
   color: #f0f0f0;
+}
+
+.Forms {
+  max-width: 600px;
+  margin: 130px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+  display: grid;
+  gap: 20px;
+}
+
+.form {
+  margin-top: 100px;
+  background: #e3f2fd;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  margin: 5px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+button[disabled] {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+button:not(:disabled):hover {
+  background: linear-gradient(135deg, #0056b3, #003f8a);
+  transform: scale(1.05);
+}
+
+.expense-list {
+  margin-top: 20px;
+}
+
+.expense-item {
+  background: #e3f2fd;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.expense-item h4 {
+  margin: 5px 0;
+}
+
+.expense-item button {
+  background: linear-gradient(135deg, #ff5722, #e64a19);
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.expense-item button:hover {
+  background: linear-gradient(135deg, #e64a19, #d84315);
+  transform: scale(1.05);
+}
+
+h3 {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.data-side-button {
+  color: white;
+  background-color: none;
+}
+
+.dashboard-card-container {
+  display: flex;
+
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.dashboard-card {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 45%;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
 }

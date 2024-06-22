@@ -42,7 +42,7 @@ const Income = ({ user }) => {
       userId: user.id,
     }
 
-    const response = await axios.post("http://localhost:3001/income/", data)
+    const response = await axios.post("https://profitpulse-backend.onrender.com/income/", data)
     console.log(data)
 
     const newIncome = response.data
@@ -83,9 +83,7 @@ const Income = ({ user }) => {
     })
   }
   const handleDelete = async (incomeId) => {
-    await axios.delete(
-      `https://profitpulse-backend.onrender.com/income/${incomeId}`
-    )
+    await axios.delete(`https://profitpulse-backend.onrender.com/income/${incomeId}`)
     setIncomes(incomes.filter((income) => income._id !== incomeId))
   }
   const handleEdit = async (income, incomeId) => {
@@ -115,36 +113,8 @@ const Income = ({ user }) => {
               required
             />
           </div>
-          <div>
-            <label htmlFor="month">month</label>
-            <select
-              onChange={handleChange}
-              name="month"
-              value={formValues.month}
-              required
-            >
-              <option value="" disabled>
-                Select a month
-              </option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
-          </div>
-          <button
-            disabled={
-              !formValues.name || !formValues.amount || !formValues.month
-            }
-          >
+
+          <button disabled={!formValues.name || !formValues.amount}>
             Add your Income
           </button>
         </form>
@@ -171,31 +141,7 @@ const Income = ({ user }) => {
               required
             />
           </div>
-          <div>
-            <label htmlFor="editMonth">month</label>
-            <select
-              onChange={handleEditChange}
-              name="month"
-              value={editFormValues.month}
-              required
-            >
-              <option value="" disabled>
-                Select a month
-              </option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
-          </div>
+
           <button>Update Income</button>
         </form>
       )}
@@ -204,7 +150,7 @@ const Income = ({ user }) => {
         <div key={income._id}>
           <h4>name:{income.name}</h4>
           <h4>amount:{income.amount}</h4>
-          <h4>month:{income.month}</h4>
+
           <button onClick={() => handleDelete(income._id)}>Delete</button>
           <button onClick={() => handleEdit(income)}>Edit</button>
         </div>
