@@ -24,27 +24,43 @@ const ExpTrack = ({ details }) => {
     datasets: [
       {
         label: "Expenses",
-        data: [300, 50, 100],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
+        data: [],
+        backgroundColor: [],
       },
     ],
   })
 
   useEffect(() => {
+    setChartData({
+      labels: [],
+      datasets: [{ label: "Incomes", data: [], backgroundColor: [] }],
+    })
     console.log(`exp track details: ${JSON.stringify(details)}`)
-    const labels = details.incomes.map((item) => item.name)
-    const data = details.incomes.map((item) => item.amount)
-    const backgroundColor = ["#f44336", "#2196f3", "#ffc107"]
 
-    setChartData({ labels, data, backgroundColor })
-  }, [])
+    if (details.expenses) {
+      const labels = details.incomes.map((item) => item.name)
+      const data = details.incomes.map((item) => item.amount)
+      const backgroundColor = details.expenses.map((_, index) => {
+        const colors = ["#f44336", "#2196f3", "#ffc107", "#9c27b0", "#4caf50"]
+        return colors[index % colors.length]
+      })
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: "Expenses",
+            data,
+            backgroundColor,
+          },
+        ],
+      })
+    }
+  }, [details])
 
   return (
     <div>
+      <h2 style={{ textAlign: "center" }}>Incomes</h2>
       <Doughnut data={chartData} />
     </div>
   )

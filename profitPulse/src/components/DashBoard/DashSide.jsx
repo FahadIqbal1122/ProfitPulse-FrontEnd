@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Income from "../M-Data/Income"
 import { Link, json, useLocation } from "react-router-dom"
 import axios from "axios"
@@ -55,9 +55,8 @@ const DashSide = ({ user }) => {
 
   // State for user-defined budgets
   const [userBudgets, setUserBudgets] = useState([])
-  const [newCategory, setNewCategory] = useState("")
-  const [newLimit, setNewLimit] = useState(0)
-  const [newAmount, setNewAmount] = useState(0)
+  const [totalIncome, setTotalIncome] = useState(0)
+  const [totalExpense, setTotalExpense] = useState(0)
 
   const [details, setDetails] = useState({
     user: {},
@@ -65,15 +64,23 @@ const DashSide = ({ user }) => {
     expenses: [],
     budgets: [],
   })
+  const preDetails = useRef(details)
   useEffect(() => {
     const fetchDetails = async () => {
       if (!user.id) return
-      const response = await axios.get(
-        `https://profitpulse-backend.onrender.com/ai/${user.id}`
-      )
-      setDetails(response.data)
-      console.log(response.data)
+      try {
+        const response = await axios.get(
+          `https://profitpulse-backend.onrender.com/ai/${user.id}`
+        )
+        setDetails(response.data)
+        setTotalIncome(response.data.user.totalIncome)
+        setTotalExpense(response.data.user.totalExpense)
+        console.log(response.data)
+      } catch (error) {
+        console.error(error)
+      }
     }
+
     fetchDetails()
   }, [user.id])
 
@@ -177,37 +184,6 @@ const DashSide = ({ user }) => {
     ],
   }
 
-  // Chart data for summary bar chart (expenses, income, and budget limit)
-  const summaryChartData = {
-    labels: MonthlyExpenses.map((item) => item.month),
-    datasets: [
-      {
-        label: "Monthly Expenses",
-        data: MonthlyExpenses.map((item) => item.amount),
-        backgroundColor: colors[0], // Color for expenses
-        borderColor: borderColors[0],
-        borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-      {
-        label: "Monthly Income",
-        data: MonthlyIncome.map((item) => item.amount),
-        backgroundColor: colors[1], // Color for income
-        borderColor: borderColors[1],
-        borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-      {
-        label: "Budget Limit",
-        data: BudgetLimits.map((item) => item.limit),
-        backgroundColor: colors[2], // Color for budget limit
-        borderColor: borderColors[2],
-        borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
-      },
-    ],
-  }
-
   // Custom tooltip callback to show descriptions
 
   const chartOptions = {
@@ -278,22 +254,17 @@ const DashSide = ({ user }) => {
     plugins: {
       tooltip: {
         callbacks: {
-          label: function (context) {
+          label: function (context, details) {
             const label = context.dataset.label
             const dataIndex = context.dataIndex
             const amount = context.dataset.data[dataIndex]
-            let description
-            if (label === "Monthly Income") {
-              description = MonthlyIncome[dataIndex].description
-              return `Income: ${description}: $${amount}`
-            } else if (label === "Monthly Expenses") {
-              description = MonthlyExpenses[dataIndex].description
-              return `Expense: ${description}: $${amount}`
-            } else if (label === "Budget Limit") {
-              description = BudgetLimits[dataIndex].month
-              return `Budget Limit: ${description}: $${amount}`
+
+            if (label === "Amount Spent") {
+              return `Budget Amount: BD${amount}`
             }
-            return ""
+            if (label === "Budget Limit") {
+              return `Budget Limit: BD${amount}`
+            }
           },
         },
         backgroundColor: "rgba(33, 33, 33, 0.8)",
@@ -344,18 +315,6 @@ const DashSide = ({ user }) => {
     }
   }
 
-  // Add user-defined budget
-  const addBudget = (e) => {
-    e.preventDefault()
-    setUserBudgets([
-      ...userBudgets,
-      { category: newCategory, limit: newLimit, amount: newAmount },
-    ])
-    setNewCategory("")
-    setNewLimit(0)
-    setNewAmount(0)
-  }
-
   // Updated summary chart data with user budgets
   const updatedSummaryChartData = {
     labels: details.budgets.map((item) => item.name),
@@ -363,27 +322,22 @@ const DashSide = ({ user }) => {
       {
         label: "Budget Limit",
         data: details.budgets.map((item) => item.limit),
-        backgroundColor: colors[2], // Color for budget limit
+        backgroundColor: colors[2],
         borderColor: borderColors[2],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
+        barThickness: 15,
       },
       {
         label: "Amount Spent",
         data: details.budgets.map((item) => item.amount),
-        backgroundColor: colors[0], // Color for amount spent
+        backgroundColor: colors[0],
         borderColor: borderColors[0],
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
+        barThickness: 15,
       },
     ],
   }
-  // Icon mapping for budget categories
-  const iconMap = {
-    Entertainment: faFilm,
-    Utilities: faLightbulb,
-    Income: faMoneyCheckAlt,
-  }
+
   return (
     <div>
       {/* Dashboard layout */}
@@ -408,7 +362,7 @@ const DashSide = ({ user }) => {
               <Link to="/IncomeTrack">Income Track</Link>
             </li>
             <li>
-              <Link to="/Summary">Budget</Link>
+              <Link to="/Summary">Budget Track</Link>
             </li>
             <li>
               <Link to="/PulseAi">PulseAI</Link>
@@ -423,92 +377,102 @@ const DashSide = ({ user }) => {
             !showSummary &&
             !showAi && ( // Wrap everything in the condition
               <>
-                <div className="dashboard-card">
-                  <h2>Total Income</h2>
-                  <p>{user.totalIncome} BD</p>
-                </div>
-                <div className="dashboard-card">
-                  <h2>Total Expense</h2>
-                  <p>{user.totalExpense} BD</p>
-                </div>
-                <div className="chart-container">
-                  <ExpTrack user={user} details={details} />
-                </div>
-                <div className="chart-container">
-                  <IncomeTrack user={user} details={details} />
+                <div className="dashboard-card-container">
+                  <div className="dashboard-card">
+                    <h2>Total Income</h2>
+                    <p>{totalIncome} BD</p>
+                  </div>
+                  <div className="dashboard-card">
+                    <h2>Total Expense</h2>
+                    <p>{totalExpense} BD</p>
+                  </div>
                 </div>
                 <div className="chart-container">
-                  <Bar
-                    data={updatedSummaryChartData}
-                    options={summaryChartOptions}
-                    style={{ width: "400px", height: "300px" }}
-                  />
+                  <div className="chart">
+                    <ExpTrack user={user} details={details} />
+                  </div>
+                  <div className="chart">
+                    <h2 style={{ textAlign: "center", marginBottom: "100px" }}>
+                      Budgets
+                    </h2>
+                    <Bar
+                      data={updatedSummaryChartData}
+                      options={summaryChartOptions}
+                      style={{ width: "400px", height: "300px" }}
+                    />
+                  </div>
+                  <div className="chart">
+                    <IncomeTrack user={user} details={details} />
+                  </div>
                 </div>
               </>
             )}
           {showChart && (
             <>
-              <h1>Welcome to My ExpTracker</h1>
+              <h1>Expense Tracker</h1>
               <p>
-                ExpTracker visualizes your monthly expenses, helping you track
-                spending habits, identify trends, and manage your budget
-                effectively. The bar chart below highlights your expenses,
-                showing fluctuations and potential savings areas. Use this tool
-                to achieve your financial goals.
+                ExpTracker visualizes your expenses, helping you track spending
+                habits, and manage your budget effectively. The Pie chart below
+                highlights your expenses, showing fluctuations and potential
+                savings areas. Use this tool to achieve your financial goals.
               </p>
               <div className="chart-container">
-                <Bar
-                  data={chartData}
-                  options={chartOptions}
-                  style={{ width: "400px", height: "300px" }}
-                />
-              </div>
-
-              <h3>Pie</h3>
-              <div className="chart-container">
-                <ExpTrack user={user} details={details} />
+                <div className="chart">
+                  <Bar
+                    data={chartData}
+                    options={chartOptions}
+                    style={{ height: "300px" }}
+                  />
+                </div>
+                <div className="chart">
+                  <ExpTrack user={user} details={details} />
+                </div>
               </div>
             </>
           )}
+
           {showIncomeChart && (
             <>
-              <h1>Welcome to Income Tracker</h1>
+              <h1>Income Tracker</h1>
               <p>
-                Income Tracker displays your monthly income, helping you monitor
-                your earnings and plan your finances accordingly. The bar chart
+                Income Tracker displays your income, helping you monitor your
+                earnings and plan your finances accordingly. The Doughnut chart
                 below shows your income distribution, highlighting different
                 sources of income. Use this tool to achieve your financial
                 goals.
               </p>
               <div className="chart-container">
-                <Bar
-                  data={incomeChartData}
-                  options={chartOptions}
-                  style={{ width: "400px", height: "300px" }}
-                />
-              </div>
-              <h3>Pie</h3>
-              <div className="chart-container">
-                <IncomeTrack user={user} details={details} />
+                <div className="chart">
+                  <Bar
+                    data={incomeChartData}
+                    options={chartOptions}
+                    style={{ width: "400px", height: "300px" }}
+                  />
+                </div>
+
+                <div className="chart">
+                  <IncomeTrack user={user} details={details} />
+                </div>
               </div>
             </>
           )}
           {showSummary && (
             <>
-              <h1>Financial Summary</h1>
+              <h1>Budget Tracker</h1>
               <p>
                 Here you can see a summary of your financial information,
                 including budget limits, expense insights, and income details.
                 Use this summary to gain a holistic view of your financial
                 health and make informed decisions.
               </p>
-
               <div className="chart-container">
-                <Bar
-                  data={updatedSummaryChartData}
-                  options={summaryChartOptions}
-                  style={{ width: "400px", height: "300px" }}
-                />
+                <div className="chart">
+                  <Bar
+                    data={updatedSummaryChartData}
+                    options={summaryChartOptions}
+                    style={{ width: "400px", height: "300px" }}
+                  />
+                </div>
               </div>
 
               {/* Display budget categories with icons */}
@@ -536,29 +500,6 @@ const DashSide = ({ user }) => {
               <MoneySavingTips user={user} />
             </>
           )}
-        </div>
-
-        {/* Right sidebar */}
-        <div
-          className={`sidebar right-sidebar ${
-            rightSidebarMinimized ? "minimized" : ""
-          }`}
-        >
-          <button className="toggle-btn" onClick={() => toggleSidebar("right")}>
-            {leftSidebarMinimized ? "<" : ">"}
-          </button>
-          <h2>Options</h2>
-          <ul>
-            <li>
-              <Link to="/Budget">Budget</Link>
-            </li>
-            <li>
-              <Link to="/Expense">Expense</Link>
-            </li>
-            <li>
-              <Link to="/Income">Income</Link>
-            </li>
-          </ul>
         </div>
       </div>
     </div>

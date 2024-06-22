@@ -27,10 +27,8 @@ const Summary = () => {
     try {
       const incomeData = await GetIncome()
       setIncomes(incomeData)
-      // calculate income summary
       const totalAmount = incomeData.reduce(
-        (total, income) => total + income.amount,
-        0
+        (total, income) => total + income.amount
       )
       const averageAmount = totalAmount / incomeData.length
       setIncomeSummary({ totalAmount, averageAmount })
@@ -39,12 +37,10 @@ const Summary = () => {
     }
   }
 
-  // function to fetch expense data and calculate expense summary
   const fetchExpenseData = async () => {
     try {
       const expenseData = await GetExpenses()
       setExpenses(expenseData)
-      // calculate expense summary
       const totalAmount = expenseData.reduce(
         (total, expense) => total + expense.amount,
         0
@@ -100,6 +96,5 @@ const Summary = () => {
     </div>
   )
 }
-// tesst
 
 export default Summary

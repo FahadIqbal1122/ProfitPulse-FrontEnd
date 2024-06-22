@@ -12,6 +12,7 @@ import DashSide from "./components/DashBoard/DashSide"
 import UserProf from "./components/UserProf"
 import "./App.css"
 import axios from "axios"
+import DataSide from "./components/M-Data/DataSide"
 
 const App = () => {
   const [user, setUser] = useState({})
@@ -41,11 +42,12 @@ const App = () => {
           <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<SignUp />} />
-          <Route path="/Budget" element={<Budget user={user} />} />
+          {/* <Route path="/Budget" element={<Budget user={user} />} />
           <Route path="/Expense" element={<Expense user={user} />} />
-          <Route path="/Income" element={<Income user={user} />} />
+          <Route path="/Income" element={<Income user={user} />} /> */}
           <Route path="/*" element={<DashSide user={user} />} />
           <Route path="/profile" element={<UserProf user={user} />} />
+          <Route path="/data" element={<DataSide user={user} />} />
         </Routes>
       </main>
     </div>

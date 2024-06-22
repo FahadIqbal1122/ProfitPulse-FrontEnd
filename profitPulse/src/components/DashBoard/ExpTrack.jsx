@@ -24,28 +24,48 @@ const ExpTrack = ({ details }) => {
     datasets: [
       {
         label: "Expenses",
-        data: [300, 50, 100],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
+        data: [],
+        backgroundColor: [],
       },
     ],
   })
 
   useEffect(() => {
+    setChartData({
+      labels: [],
+      datasets: [{ label: "Expenses", data: [], backgroundColor: [] }],
+    })
     console.log(`exp track details: ${JSON.stringify(details)}`)
-    const labels = details.budgets.map((item) => item.name)
-    const data = details.expenses.map((item) => item.amount)
-    const backgroundColor = ["#f44336", "#2196f3", "#ffc107"]
 
-    setChartData({ labels, data, backgroundColor })
-  }, [])
+    if (details.expenses) {
+      const labels = details.expenses.map((item) => item.note)
+      const data = details.expenses.map((item) => item.amount)
+      const backgroundColor = details.expenses.map((_, index) => {
+        const colors = ["#f44336", "#2196f3", "#ffc107", "#9c27b0", "#4caf50"]
+        return colors[index % colors.length]
+      })
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: "Expenses",
+            data,
+            backgroundColor,
+          },
+        ],
+      })
+    }
+  }, [details])
 
   return (
     <div>
-      <Pie data={chartData} />
+      <h2 style={{ textAlign: "center" }}>Expenses</h2>
+      {details.budgets && details.expenses ? (
+        <Pie data={chartData} />
+      ) : (
+        <p>Loading data...</p>
+      )}
     </div>
   )
 }

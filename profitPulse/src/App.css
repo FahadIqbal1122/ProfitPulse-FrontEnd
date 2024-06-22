@@ -4,7 +4,8 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
+  overflow: hidden;
 }
 
 header {
@@ -12,13 +13,14 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #5d5c61;
+  background-color: #3b3a42;
   color: #f0f0f0;
   position: fixed;
-  width: auto;
+  width: 100%;
   top: 0;
   z-index: 1000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 header .logo-wrapper {
@@ -34,7 +36,10 @@ header .logo {
 
 nav {
   display: flex;
+  width: auto;
   gap: 20px;
+  padding-left: 20px;
+  padding-right: 30px;
 }
 
 nav a {
@@ -50,7 +55,7 @@ nav a:hover {
 }
 
 .main-content {
-  margin-top: 80px;
+  padding-top: 180px;
   padding-left: 270px;
   padding-right: 270px;
   transition: padding 0.3s;
@@ -118,10 +123,12 @@ button:hover:not(:disabled) {
 
 .content {
   padding: 40px;
+  padding-bottom: 90px;
   background-color: #ffffff;
   overflow-y: auto;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  margin-top: -39px;
 }
 
 .profile-link {
@@ -288,6 +295,7 @@ form {
 }
 
 .sidebar {
+  margin-top: 20px;
   width: 250px;
   background-color: #3b3a42;
   color: #f0f0f0;
@@ -394,10 +402,10 @@ form {
   grid-column: 2;
   padding: 40px;
   background-color: #ffffff;
-  overflow-y: auto;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   transition: margin 0.3s;
+  width: 100%;
 }
 
 .content.minimized-left {
@@ -413,8 +421,18 @@ form {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  width: 100%;
+  height: 70%;
+  padding-bottom: 100px;
 }
-
+.chart {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.chart h2 {
+  flex: 1;
+  line-height: 2em;
+}
 .Forms {
   display: flex;
   flex-direction: column;
@@ -501,7 +519,7 @@ form {
 
 .Forms {
   max-width: 600px;
-  margin: 40px auto;
+  margin: 130px auto;
   padding: 20px;
   background: #fff;
   border-radius: 10px;
@@ -514,6 +532,7 @@ form {
 }
 
 .form {
+  margin-top: 100px;
   background: #e3f2fd;
   padding: 20px;
   border-radius: 10px;
@@ -548,6 +567,7 @@ button {
   background: linear-gradient(135deg, #007bff, #0056b3);
   color: white;
   border: none;
+  margin: 5px;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
@@ -604,4 +624,27 @@ h3 {
 
 .content::-webkit-scrollbar {
   display: none;
+}
+
+.data-side-button {
+  color: white;
+  background-color: none;
+}
+
+.dashboard-card-container {
+  display: flex;
+
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.dashboard-card {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 45%;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
 }

@@ -12,10 +12,21 @@ const MoneySavingTips = ({ user }) => {
       setError(null)
 
       try {
-        const response = await axios.get(
-          `https://profitpulse-backend.onrender.com/${user.id}/money-saving-tips`
-        )
-        setTips(response.data.cohere.generated_text)
+        if (user.id) {
+          console.log(user.id)
+          const response = await axios.get(
+            `https://profitpulse-backend.onrender.com/ai/${user.id}/money-saving-tips`,
+            {
+              headers: {
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+              },
+            }
+          )
+          console.log(`This is ai response: ${JSON.stringify(response.data)}`)
+          setTips(response.data.cohere.generated_text)
+        } else {
+          setError("User ID is not available. Please try again later.")
+        }
       } catch (error) {
         console.error("Error fetching tips:", error)
         setError("Failed to fetch tips. Please try again later.")
