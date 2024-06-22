@@ -563,3 +563,7 @@ button:not(:disabled):hover {
   background: linear-gradient(135deg, #0056b3, #003f8a);
   transform: scale(1.05);
 }
+
+.expense-list {
+  margin-top: 20px;
+}
