@@ -390,6 +390,16 @@ form {
   transform: scale(1.05);
 }
 
+.content {
+  grid-column: 2;
+  padding: 40px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: margin 0.3s;
+}
+
 .content.minimized-left {
   margin-left: 50px;
 }
