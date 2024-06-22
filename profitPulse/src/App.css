@@ -252,7 +252,6 @@ form {
   max-width: 400px;
   margin: 0 auto;
 }
-
 .btn {
   display: inline-block;
   font-weight: 400;
@@ -280,10 +279,12 @@ form {
 }
 
 .dash-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
   height: 100vh;
   overflow: hidden;
   padding-top: 80px;
+  gap: 10px;
 }
 
 .sidebar {
