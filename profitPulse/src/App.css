@@ -579,3 +579,14 @@ button:not(:disabled):hover {
 .expense-item h4 {
   margin: 5px 0;
 }
+
+.expense-item button {
+  background: linear-gradient(135deg, #ff5722, #e64a19);
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.3s, transform 0.3s;
+}
