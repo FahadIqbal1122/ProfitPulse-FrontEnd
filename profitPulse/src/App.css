@@ -590,3 +590,18 @@ button:not(:disabled):hover {
   margin-right: 10px;
   transition: background 0.3s, transform 0.3s;
 }
+
+.expense-item button:hover {
+  background: linear-gradient(135deg, #e64a19, #d84315);
+  transform: scale(1.05);
+}
+
+h3 {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
