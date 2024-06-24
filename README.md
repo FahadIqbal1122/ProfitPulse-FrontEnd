@@ -47,9 +47,9 @@ ProfitPulse is your go-to platform for managing and tracking your finances. Whet
 ## Wireframe
 
 Below is a basic wireframe to provide a visual representation of the ProfitPulse website layout.
-![Main Page](/Extras/ProfitPulse-dashboard.png)\
-![Data Management](/Extras/ProfitPulse-manageData-page.png)\
-![Sign Up](/Extras/ProfitPulse-login-page.png)
+![Signup Page](/Extras/SIGNUP-PROFITPULSE.png)
+![Dashboard](/Extras/DASHBOARD-PROFITPULSE.png)
+![Data Management](/Extras/ADD-DATA-PROFITPULSE.png)
 
 ## ERD and Component Diagram
 
@@ -61,4 +61,5 @@ Below is a our ER diagram for the back-end and component diagram for the front-e
 
 ## [Trello](https://trello.com/b/nctFZ5iJ/profit-pulse)
 
-### **_Credits_** (edited)
+### **_Credits_**
+## [Charts.js](https://www.chartjs.org/docs/latest/charts/line.html)

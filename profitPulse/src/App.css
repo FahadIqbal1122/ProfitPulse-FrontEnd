@@ -259,7 +259,6 @@ form {
   max-width: 400px;
   margin: 0 auto;
 }
-
 .btn {
   display: inline-block;
   font-weight: 400;
@@ -498,7 +497,6 @@ form {
   background-color: #7a7a85;
   transform: scale(1.05);
 }
-
 .submitted-info {
   margin-top: 20px;
   padding: 10px;
