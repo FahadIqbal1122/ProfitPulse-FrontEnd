@@ -45,11 +45,11 @@ ChartJS.register(
 )
 
 const DashSide = ({ user }) => {
-  const [showChart, setShowChart] = useState(false) // State to control the visibility of the expenses chart
-  const [showIncomeChart, setShowIncomeChart] = useState(false) // State to control the visibility of the income chart
-  const [showSummary, setShowSummary] = useState(false) // State to control the visibility of the summary section
-  const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false) // State to control the left sidebar minimization
-  const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false) // State to control the right sidebar minimization
+  const [showChart, setShowChart] = useState(false)
+  const [showIncomeChart, setShowIncomeChart] = useState(false)
+  const [showSummary, setShowSummary] = useState(false)
+  const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false)
+  const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false)
 
   const [showAi, setShowAi] = useState(false)
 
@@ -164,7 +164,7 @@ const DashSide = ({ user }) => {
         backgroundColor: colors,
         borderColor: borderColors,
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
+        barThickness: 15,
       },
     ],
   }
@@ -179,7 +179,7 @@ const DashSide = ({ user }) => {
         backgroundColor: colors,
         borderColor: borderColors,
         borderWidth: 1,
-        barThickness: 15, // Adjust bar thickness here
+        barThickness: 15,
       },
     ],
   }
@@ -195,7 +195,7 @@ const DashSide = ({ user }) => {
             family: "'Roboto', sans-serif",
             weight: "500",
           },
-          color: "#333", // Dark color
+          color: "#333",
         },
       },
       y: {
@@ -204,7 +204,7 @@ const DashSide = ({ user }) => {
             size: 16,
             family: "'Roboto', sans-serif",
           },
-          color: "#333", // Dark color
+          color: "#333",
         },
       },
     },
@@ -238,7 +238,7 @@ const DashSide = ({ user }) => {
             family: "'Roboto', sans-serif",
             weight: "500",
           },
-          color: "#333", // Dark color
+          color: "#333",
         },
       },
       y: {
@@ -247,7 +247,7 @@ const DashSide = ({ user }) => {
             size: 16,
             family: "'Roboto', sans-serif",
           },
-          color: "#333", // Dark color
+          color: "#333",
         },
       },
     },
@@ -274,7 +274,7 @@ const DashSide = ({ user }) => {
 
   // Extract category from the URL using useLocation
   const location = useLocation()
-  const category = location.pathname.split("/")[1] // Assumes the URL structure is "/category"
+  const category = location.pathname.split("/")[1]
 
   // Effect to toggle chart visibility based on URL category
   useEffect(() => {
@@ -372,41 +372,38 @@ const DashSide = ({ user }) => {
 
         {/* Main content area */}
         <div className="content">
-          {!showChart &&
-            !showIncomeChart &&
-            !showSummary &&
-            !showAi && ( // Wrap everything in the condition
-              <>
-                <div className="dashboard-card-container">
-                  <div className="dashboard-card">
-                    <h2>Total Income</h2>
-                    <p>{totalIncome} BD</p>
-                  </div>
-                  <div className="dashboard-card">
-                    <h2>Total Expense</h2>
-                    <p>{totalExpense} BD</p>
-                  </div>
+          {!showChart && !showIncomeChart && !showSummary && !showAi && (
+            <>
+              <div className="dashboard-card-container">
+                <div className="dashboard-card">
+                  <h2>Total Income</h2>
+                  <p>{totalIncome} BD</p>
                 </div>
-                <div className="chart-container">
-                  <div className="chart">
-                    <ExpTrack user={user} details={details} />
-                  </div>
-                  <div className="chart">
-                    <h2 style={{ textAlign: "center", marginBottom: "100px" }}>
-                      Budgets
-                    </h2>
-                    <Bar
-                      data={updatedSummaryChartData}
-                      options={summaryChartOptions}
-                      style={{ width: "400px", height: "300px" }}
-                    />
-                  </div>
-                  <div className="chart">
-                    <IncomeTrack user={user} details={details} />
-                  </div>
+                <div className="dashboard-card">
+                  <h2>Total Expense</h2>
+                  <p>{totalExpense} BD</p>
                 </div>
-              </>
-            )}
+              </div>
+              <div className="chart-container">
+                <div className="chart">
+                  <ExpTrack user={user} details={details} />
+                </div>
+                <div className="chart">
+                  <h2 style={{ textAlign: "center", marginBottom: "100px" }}>
+                    Budgets
+                  </h2>
+                  <Bar
+                    data={updatedSummaryChartData}
+                    options={summaryChartOptions}
+                    style={{ width: "400px", height: "300px" }}
+                  />
+                </div>
+                <div className="chart">
+                  <IncomeTrack user={user} details={details} />
+                </div>
+              </div>
+            </>
+          )}
           {showChart && (
             <>
               <h1>Expense Tracker</h1>

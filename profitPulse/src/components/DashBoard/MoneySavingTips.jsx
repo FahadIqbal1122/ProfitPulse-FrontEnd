@@ -15,12 +15,7 @@ const MoneySavingTips = ({ user }) => {
         if (user.id) {
           console.log(user.id)
           const response = await axios.get(
-            `https://profitpulse-backend.onrender.com/ai/${user.id}/money-saving-tips`,
-            {
-              headers: {
-                "Cache-Control": "no-cache, no-store, must-revalidate",
-              },
-            }
+            `https://profitpulse-backend.onrender.com/ai/${user.id}/money-saving-tips`
           )
           console.log(`This is ai response: ${JSON.stringify(response.data)}`)
           setTips(response.data.cohere.generated_text)
