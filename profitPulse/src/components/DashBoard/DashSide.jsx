@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react"
 import Income from "../M-Data/Income"
 import { Link, json, useLocation } from "react-router-dom"
-import axios from "axios"
+import Client from "../../services/api"
+// import axios from "axios"
 
 import {
   Chart as ChartJS,
@@ -70,9 +71,11 @@ const DashSide = ({ user }) => {
     const fetchDetails = async () => {
       if (!user.id) return
       try {
-        const response = await axios.get(
-          `https://profitpulse-backend.onrender.com/ai/${user.id}`
-        )
+        // forces a fresh request every time
+const response = await Client.get(`/ai/${user.id}?t=${Date.now()}`)
+
+console.log("AI DETAILS:", response.data)
+
         setDetails(response.data)
         setTotalIncome(response.data.user.totalIncome)
         setTotalExpense(response.data.user.totalExpense)
@@ -315,7 +318,8 @@ const DashSide = ({ user }) => {
       setRightSidebarMinimized(!rightSidebarMinimized)
     }
   }
-
+console.log("DETAILS:", details)
+console.log("BUDGETS:", details.budgets)
   // Updated summary chart data with user budgets
   const updatedSummaryChartData = {
     labels: details.budgets.map((item) => item.name),
@@ -505,4 +509,4 @@ const DashSide = ({ user }) => {
 }
 
 export default DashSide
-// test
+ 
