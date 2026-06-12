@@ -50,6 +50,7 @@ const DashSide = ({ user }) => {
   const [showSummary, setShowSummary] = useState(false)
   const [leftSidebarMinimized, setLeftSidebarMinimized] = useState(false)
   const [rightSidebarMinimized, setRightSidebarMinimized] = useState(false)
+  
 
   const [showAi, setShowAi] = useState(false)
 

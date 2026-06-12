@@ -8,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js"
+import { Pie } from "react-chartjs-2"
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -16,7 +18,6 @@ ChartJS.register(
   Tooltip,
   Legend
 )
-import { Pie } from "react-chartjs-2"
 
 const ExpTrack = ({ details }) => {
   const [chartData, setChartData] = useState({
@@ -31,15 +32,12 @@ const ExpTrack = ({ details }) => {
   })
 
   useEffect(() => {
-    setChartData({
-      labels: [],
-      datasets: [{ label: "Expenses", data: [], backgroundColor: [] }],
-    })
     console.log(`exp track details: ${JSON.stringify(details)}`)
 
-    if (details.expenses) {
+    if (details && details.expenses && Array.isArray(details.expenses)) {
       const labels = details.expenses.map((item) => item.note)
-      const data = details.expenses.map((item) => item.amount)
+      const data = details.expenses.map((item) => Number(item.amount))
+
       const backgroundColor = details.expenses.map((_, index) => {
         const colors = ["#f44336", "#2196f3", "#ffc107", "#9c27b0", "#4caf50"]
         return colors[index % colors.length]
@@ -55,16 +53,22 @@ const ExpTrack = ({ details }) => {
           },
         ],
       })
+    } else {
+      setChartData({
+        labels: [],
+        datasets: [{ label: "Expenses", data: [], backgroundColor: [] }],
+      })
     }
   }, [details])
 
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>Expenses</h2>
-      {details.budgets && details.expenses ? (
+
+      {details?.expenses?.length > 0 ? (
         <Pie data={chartData} />
       ) : (
-        <p>Loading data...</p>
+        <p>No expenses yet</p>
       )}
     </div>
   )

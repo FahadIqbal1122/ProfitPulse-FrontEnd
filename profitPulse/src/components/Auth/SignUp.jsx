@@ -14,22 +14,55 @@ const SignUp = () => {
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
-
   const handleSubmit = async (e) => {
-    e.preventDefault()
+  e.preventDefault()
+
+  if (formValues.password !== formValues.confirmPassword) {
+    alert("Passwords do not match")
+    return
+  }
+
+  try {
     await SignUpUser({
       name: formValues.name,
       email: formValues.email,
       password: formValues.password,
     })
+
     setFormValues({
       name: "",
       email: "",
       password: "",
       confirmPassword: "",
     })
+
     navigate("/login")
+  } catch (error) {
+    console.error(error)
+
+    alert(
+      error.response?.data?.msg ||
+      error.response?.data?.message ||
+      "Registration failed"
+    )
   }
+}
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   await SignUpUser({
+  //     name: formValues.name,
+  //     email: formValues.email,
+  //     password: formValues.password,
+  //   })
+  //   setFormValues({
+  //     name: "",
+  //     email: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //   })
+  //   navigate("/login")
+  // }
 
   return (
     <div className="signin col">
@@ -79,11 +112,17 @@ const SignUp = () => {
             />
           </div>
           <button
-            disabled={
-              !formValues.email ||
-              (!formValues.password &&
-                formValues.confirmPassword === formValues.password)
-            }
+          disabled={
+  !formValues.name ||
+  !formValues.email ||
+  !formValues.password ||
+  formValues.password !== formValues.confirmPassword
+}
+            // disabled={
+            //   !formValues.email ||
+            //   (!formValues.password &&
+            //     formValues.confirmPassword === formValues.password)
+            // }
           >
             Sign Up
           </button>
