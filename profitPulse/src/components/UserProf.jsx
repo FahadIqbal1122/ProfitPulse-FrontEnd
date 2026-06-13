@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
-import axios from "axios"
+import React, { useState } from "react"
+import Client from "../services/api"
+// import axios from "axios"
 import { Link } from "react-router-dom"
 const UserProf = ({ user }) => {
   const [username, setUsername] = useState("")
@@ -18,8 +19,7 @@ const UserProf = ({ user }) => {
     }
 
     try {
-      const response = await axios.put(
-        `https://profitpulse-backend.onrender.com/auth/update/${user.id}`,
+      const response = await Client.put(`/auth/update/${user.id}`,
         {
           oldPassword,
           newPassword,
@@ -28,6 +28,7 @@ const UserProf = ({ user }) => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       )
+      console.log(user)
 
       if (response.data.status === "Password Updated!") {
         setOldPassword("")

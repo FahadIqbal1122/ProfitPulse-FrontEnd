@@ -5,7 +5,7 @@ const Summary = () => {
   // state for holding expenses ,income and budget data
   const [expenses, setExpenses] = useState([])
   const [incomes, setIncomes] = useState([])
-  const [budets, setBudgets] = useState[[]]
+  const [budgets, setBudgets] = useState[[]]
 
   // state for holding expense and income summary
   // initialized with totalAmount and averageAmount set to 0
@@ -27,10 +27,12 @@ const Summary = () => {
     try {
       const incomeData = await GetIncome()
       setIncomes(incomeData)
-      const totalAmount = incomeData.reduce(
-        (total, income) => total + income.amount
-      )
-      const averageAmount = totalAmount / incomeData.length
+    const totalAmount = incomeData.reduce(
+  (total, income) => total + Number(income.amount),
+  0
+)
+    const averageAmount =
+  incomeData.length > 0 ? totalAmount / incomeData.length : 0
       setIncomeSummary({ totalAmount, averageAmount })
     } catch (error) {
       console.error("Error fetching incomes:", error)
@@ -45,7 +47,8 @@ const Summary = () => {
         (total, expense) => total + expense.amount,
         0
       )
-      const averageAmount = totalAmount / expenseData.length
+      const averageAmount =
+  expenseData.length > 0 ? totalAmount / expenseData.length : 0
       setExpenseSummary({ totalAmount, averageAmount })
     } catch (error) {
       console.error("Error fetching expenses:", error)
@@ -76,7 +79,7 @@ const Summary = () => {
       {/* //.toFixed(2): Ensures the number has two decimal places for consistent display of monetary values. */}
       <div>Average Expense: ${expenseSummary.averageAmount.toFixed(2)}</div>
       {expenses.map((expense) => (
-        <div className="Expensecard" key={expense.id}>
+        <div className="Expensecard" key={expense._id}>
           <h3>{expense.note}</h3>
           <h3>{expense.amount}</h3>
         </div>
@@ -85,7 +88,7 @@ const Summary = () => {
       <div>Total Income: ${incomeSummary.totalAmount}</div>
       <div>Average Income: ${incomeSummary.averageAmount.toFixed(2)}</div>
       {incomes.map((income) => (
-        <div className="Incomecard" key={income.id}>
+        <div className="Incomecard" key={income._id}>
           <h3>{income.title}</h3>
           <h3>{income.amount}</h3>
         </div>
