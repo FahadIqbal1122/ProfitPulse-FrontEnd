@@ -21,29 +21,37 @@
 
 // export default Client
 
-import axios from "axios";
+import axios from "axios"
 
-// Backend URL (switch between local and production)
-export const BASE_URL = "http://localhost:3001";
-// export const BASE_URL = "https://profitpulse-backend.onrender.com";
-// // Create a custom axios instance
+// Base URL
+// Local development → http://localhost:3001
+// Production (Vercel) → value from VITE_API_URL
+export const BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:3001"
+
+// Create a custom axios instance
 const Client = axios.create({
   baseURL: BASE_URL,
-});
+})
 
-// Runs before every request → adds token if user is logged in
+// Runs before every request
+// Checks if a JWT token exists in localStorage
+// If found, attaches it to the Authorization header
 Client.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
 
     // Attach JWT token for protected routes
     if (token) {
-      config.headers.authorization = `Bearer ${token}`;
+      config.headers.authorization = `Bearer ${token}`
     }
 
-    return config;
+    return config
   },
-  (error) => Promise.reject(error)
-);
 
-export default Client;
+  // Handle request errors
+  (error) => Promise.reject(error)
+)
+
+// Export axios instance for use throughout the app
+export default Client

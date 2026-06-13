@@ -18,7 +18,7 @@ ChartJS.register(
 )
 import { Doughnut } from "react-chartjs-2"
 
-const ExpTrack = ({ details }) => {
+const IncomeTrack = ({ details }) => {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -66,4 +66,4 @@ const ExpTrack = ({ details }) => {
   )
 }
 
-export default ExpTrack
+export default IncomeTrack

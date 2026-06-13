@@ -213,25 +213,25 @@ console.log("AI DETAILS:", response.data)
       },
     },
     plugins: {
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            const label = context.dataset.label
-            const dataIndex = context.dataIndex
-            const amount = context.dataset.data[dataIndex]
-            let description
-            if (label === "Monthly Income") {
-              description = MonthlyIncome[dataIndex].description
-              return `Income: ${description}: $${amount}`
-            } else {
-              description = MonthlyExpenses[dataIndex].description
-              return `Expense: ${description}: $${amount}`
-            }
-          },
-        },
-        backgroundColor: "rgba(33, 33, 33, 0.8)",
+  tooltip: {
+    callbacks: {
+      label: function (context) {
+        const label = context.dataset.label
+        const amount = context.raw
+        const dataIndex = context.dataIndex
+        const month = context.label
+
+        if (label === "Monthly Income") {
+          const description = MonthlyIncome[dataIndex]?.description || month
+          return `Income: ${description}: $${amount}`
+        }
+
+        return `Expense in ${month}: $${amount}`
       },
     },
+    backgroundColor: "rgba(33, 33, 33, 0.8)",
+  },
+},
   }
   const summaryChartOptions = {
     scales: {
